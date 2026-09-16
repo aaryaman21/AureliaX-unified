@@ -1,10 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { UserPlus, Mic, Phone, Mail, Building, Users, Trash2 } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  UserPlus,
+  Mic,
+  Phone,
+  Mail,
+  Building,
+  Users,
+  Trash2,
+  ShieldCheck,
+  ShieldAlert,
+  Ban,
+  KeyRound,
+  Lock,
+  RefreshCw,
+  AlertTriangle,
+  CheckCircle2,
+} from 'lucide-react';
 import type { Contact } from '../../types';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Modal } from '../ui/Modal';
+import {
+  validateAndSanitizePhone,
+  generateSecurityChallengeCode,
+  verifySecurityAuthorization,
+  DEFAULT_MASTER_SECURITY_PIN,
+} from '../../utils/phoneSecurity';
 import styles from './ContactsView.module.css';
 
 const CONTACTS_STORAGE_KEY = 'aureliax_enrolled_contacts';
@@ -21,15 +43,40 @@ export const ContactsView: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // New Contact Form State
   const [newContactName, setNewContactName] = useState('');
   const [newContactPhone, setNewContactPhone] = useState('');
   const [newContactEmail, setNewContactEmail] = useState('');
   const [newContactOrg, setNewContactOrg] = useState('');
+  const [newContactTrust, setNewContactTrust] = useState<'NEUTRAL' | 'TRUSTED' | 'BLOCKED'>('NEUTRAL');
+  const [securityPin, setSecurityPin] = useState('');
+  const [activeChallengeCode, setActiveChallengeCode] = useState(() => generateSecurityChallengeCode());
 
-  const handleCloseModal = React.useCallback(() => {
+  // Security Validation Error States
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+  const [authError, setAuthError] = useState<string | null>(null);
+
+  // Quick Authorization Modal for existing unverified contact
+  const [authorizingContact, setAuthorizingContact] = useState<Contact | null>(null);
+  const [quickAuthPin, setQuickAuthPin] = useState('');
+  const [quickAuthChallenge, setQuickAuthChallenge] = useState(() => generateSecurityChallengeCode());
+  const [quickAuthError, setQuickAuthError] = useState<string | null>(null);
+
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
+    setPhoneError(null);
+    setAuthError(null);
+    setSecurityPin('');
   }, []);
 
+  const handleCloseQuickAuthModal = useCallback(() => {
+    setAuthorizingContact(null);
+    setQuickAuthPin('');
+    setQuickAuthError(null);
+  }, []);
+
+  // Save contacts to persistent browser storage
   useEffect(() => {
     try {
       localStorage.setItem(CONTACTS_STORAGE_KEY, JSON.stringify(contacts));
@@ -47,17 +94,46 @@ export const ContactsView: React.FC = () => {
 
   const handleCreateContact = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newContactName.trim()) return;
+    setPhoneError(null);
+    setAuthError(null);
+
+    const name = newContactName.trim();
+    if (!name) return;
+
+    // 1. Strict Phone Number Security Validation
+    const existingPhones = contacts.map((c) => c.phone || '');
+    const phoneValidation = validateAndSanitizePhone(newContactPhone, existingPhones);
+    if (!phoneValidation.isValid) {
+      setPhoneError(phoneValidation.error || 'Invalid phone number format.');
+      return;
+    }
+
+    // 2. Security Authorization Verification if requesting TRUSTED status
+    let isAuthorized = false;
+    if (newContactTrust === 'TRUSTED') {
+      const authVerified = verifySecurityAuthorization(securityPin, activeChallengeCode);
+      if (!authVerified) {
+        setAuthError(
+          `Security Authorization Blocked: Invalid PIN. Enter the Master Authorization PIN (${DEFAULT_MASTER_SECURITY_PIN}) or Challenge Code (${activeChallengeCode}) to register as an Authorized Contact.`
+        );
+        return;
+      }
+      isAuthorized = true;
+    }
 
     const created: Contact = {
       id: `cnt-${Date.now()}`,
-      name: newContactName.trim(),
-      phone: newContactPhone.trim() || '+91 90000 00000',
+      name,
+      phone: phoneValidation.formattedPhone,
       email: newContactEmail.trim() || undefined,
       organization: newContactOrg.trim() || 'Direct Contact',
-      trustStatus: 'TRUSTED',
+      trustStatus: newContactTrust,
       voiceProfileStatus: 'PENDING',
-      riskHistory: [{ date: new Date().toISOString().substring(0, 10), riskScore: 5 }],
+      isAuthorized,
+      authorizedAt: isAuthorized ? new Date().toLocaleDateString() : undefined,
+      authorizedBy: isAuthorized ? 'Security Controller' : undefined,
+      securityClearance: newContactTrust === 'TRUSTED' ? 'HIGH' : newContactTrust === 'BLOCKED' ? 'RESTRICTED' : 'STANDARD',
+      riskHistory: [{ date: new Date().toISOString().substring(0, 10), riskScore: newContactTrust === 'BLOCKED' ? 95 : 5 }],
       totalCalls: 0,
       createdAt: new Date().toISOString().substring(0, 10),
     };
@@ -67,6 +143,9 @@ export const ContactsView: React.FC = () => {
     setNewContactPhone('');
     setNewContactEmail('');
     setNewContactOrg('');
+    setNewContactTrust('NEUTRAL');
+    setSecurityPin('');
+    setActiveChallengeCode(generateSecurityChallengeCode());
     setIsModalOpen(false);
   };
 
@@ -75,21 +154,85 @@ export const ContactsView: React.FC = () => {
     setContacts(contacts.filter((c) => c.id !== id));
   };
 
+  const handleToggleBlockContact = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setContacts(
+      contacts.map((c) => {
+        if (c.id !== id) return c;
+        const willBlock = c.trustStatus !== 'BLOCKED';
+        return {
+          ...c,
+          trustStatus: willBlock ? 'BLOCKED' : 'NEUTRAL',
+          isAuthorized: willBlock ? false : c.isAuthorized,
+          securityClearance: willBlock ? 'RESTRICTED' : 'STANDARD',
+        };
+      })
+    );
+  };
+
+  const handleRevokeAuthorization = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setContacts(
+      contacts.map((c) => {
+        if (c.id !== id) return c;
+        return {
+          ...c,
+          trustStatus: 'NEUTRAL',
+          isAuthorized: false,
+          authorizedAt: undefined,
+          securityClearance: 'STANDARD',
+        };
+      })
+    );
+  };
+
+  const handleExecuteQuickAuth = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!authorizingContact) return;
+
+    const authVerified = verifySecurityAuthorization(quickAuthPin, quickAuthChallenge);
+    if (!authVerified) {
+      setQuickAuthError(
+        `Authorization Rejected: Please enter the Master Security PIN (${DEFAULT_MASTER_SECURITY_PIN}) or challenge code (${quickAuthChallenge}).`
+      );
+      return;
+    }
+
+    setContacts(
+      contacts.map((c) => {
+        if (c.id !== authorizingContact.id) return c;
+        return {
+          ...c,
+          trustStatus: 'TRUSTED',
+          isAuthorized: true,
+          authorizedAt: new Date().toLocaleDateString(),
+          authorizedBy: 'Security Controller',
+          securityClearance: 'HIGH',
+        };
+      })
+    );
+
+    handleCloseQuickAuthModal();
+  };
+
   return (
     <div className={styles.container}>
       {/* Header Card */}
       <Card className={styles.headerCard}>
         <div className={styles.topRow}>
           <div>
-            <h2 className={styles.pageTitle}>Contact Voice Profiles & Trust Directory</h2>
+            <h2 className={styles.pageTitle}>Contact Voice Profiles & Security Registry</h2>
             <p className={styles.pageSub}>
-              Manage enrolled speaker signatures, trust levels, and biometric voice profile verification
+              Manage verified speaker signatures, cryptographic authorization, and telecommunication security baselines
             </p>
           </div>
           <Button
             variant="primary"
             size="md"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setActiveChallengeCode(generateSecurityChallengeCode());
+              setIsModalOpen(true);
+            }}
             leftIcon={<UserPlus size={18} />}
           >
             Add New Contact
@@ -98,7 +241,7 @@ export const ContactsView: React.FC = () => {
 
         <div className={styles.searchRow}>
           <Input
-            placeholder="Search contacts by name, email, or organization..."
+            placeholder="Search contacts by name, email, phone, or organization..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -111,12 +254,15 @@ export const ContactsView: React.FC = () => {
           <Users size={48} className={styles.emptyIcon} />
           <h3 className={styles.emptyTitle}>No Enrolled Voice Contacts</h3>
           <p className={styles.emptyDesc}>
-            Your contact directory is currently empty. Add trusted individuals to enroll voice profiles, monitor biometric signatures, and establish identity verification baselines.
+            Your contact directory is currently empty. Add authorized individuals to enroll voice profiles, monitor biometric signatures, and prevent unauthorized phone spoofing.
           </p>
           <Button
             variant="primary"
             size="sm"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setActiveChallengeCode(generateSecurityChallengeCode());
+              setIsModalOpen(true);
+            }}
             leftIcon={<UserPlus size={16} />}
           >
             Add New Contact
@@ -134,24 +280,46 @@ export const ContactsView: React.FC = () => {
                     <Building size={12} /> {contact.organization || 'Independent'}
                   </span>
                 </div>
-                <span
-                  className={`${styles.trustBadge} ${
-                    contact.trustStatus === 'TRUSTED'
-                      ? styles.trustTrusted
-                      : contact.trustStatus === 'BLOCKED'
-                      ? styles.trustBlocked
-                      : styles.trustNeutral
-                  }`}
-                >
-                  {contact.trustStatus}
-                </span>
+                <div className={styles.authBadgeGroup}>
+                  <span
+                    className={`${styles.trustBadge} ${
+                      contact.trustStatus === 'TRUSTED'
+                        ? styles.trustTrusted
+                        : contact.trustStatus === 'BLOCKED'
+                        ? styles.trustBlocked
+                        : styles.trustNeutral
+                    }`}
+                  >
+                    {contact.trustStatus === 'TRUSTED' && <ShieldCheck size={11} style={{ display: 'inline', marginRight: '4px' }} />}
+                    {contact.trustStatus === 'NEUTRAL' && <ShieldAlert size={11} style={{ display: 'inline', marginRight: '4px' }} />}
+                    {contact.trustStatus === 'BLOCKED' && <Ban size={11} style={{ display: 'inline', marginRight: '4px' }} />}
+                    {contact.trustStatus === 'TRUSTED' ? 'AUTHORIZED' : contact.trustStatus === 'BLOCKED' ? 'BLOCKED' : 'UNVERIFIED'}
+                  </span>
+                  {contact.isAuthorized && contact.authorizedAt && (
+                    <span className={styles.authMetaText}>Auth: {contact.authorizedAt}</span>
+                  )}
+                </div>
               </div>
 
               <div className={styles.detailsList}>
                 <div className={styles.detailRow}>
                   <Phone size={14} className={styles.detailIcon} />
-                  <span>{contact.phone || 'No phone number'}</span>
+                  <span style={{ fontWeight: 600 }}>{contact.phone || 'No phone registered'}</span>
                 </div>
+                {contact.trustStatus === 'TRUSTED' ? (
+                  <span style={{ fontSize: '0.72rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <ShieldCheck size={12} /> Verified Telecom Line
+                  </span>
+                ) : contact.trustStatus === 'BLOCKED' ? (
+                  <span style={{ fontSize: '0.72rem', color: '#ef4444', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Ban size={12} /> Threat Blacklist Engaged
+                  </span>
+                ) : (
+                  <span style={{ fontSize: '0.72rem', color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <ShieldAlert size={12} /> Unverified Line (Surveillance Active)
+                  </span>
+                )}
+
                 {contact.email && (
                   <div className={styles.detailRow}>
                     <Mail size={14} className={styles.detailIcon} />
@@ -163,7 +331,7 @@ export const ContactsView: React.FC = () => {
               <div className={styles.voiceProfileBox}>
                 <div className={styles.vpHeader}>
                   <Mic size={14} className={styles.micIcon} />
-                  <span className={styles.vpTitle}>Voice Profile:</span>
+                  <span className={styles.vpTitle}>Voice Biometrics:</span>
                   <span
                     className={`${styles.vpStatus} ${
                       contact.voiceProfileStatus === 'ENROLLED'
@@ -176,14 +344,55 @@ export const ContactsView: React.FC = () => {
                 </div>
                 <div className={styles.vpSub}>
                   {contact.voiceProfileStatus === 'ENROLLED'
-                    ? 'Acoustic fingerprint registered & verified'
-                    : 'Enrollment audio sample required'}
+                    ? 'Acoustic signature enrolled & verified'
+                    : 'Awaiting biometric voice sample'}
                 </div>
               </div>
 
               <div className={styles.cardFooter}>
-                <span className={styles.totalCallsText}>{contact.totalCalls} Calls Analyzed</span>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <span className={styles.totalCallsText}>{contact.totalCalls} Calls Monitored</span>
+                <div className={styles.cardActionBtns}>
+                  {contact.trustStatus === 'NEUTRAL' && (
+                    <button
+                      className={styles.authActionBtn}
+                      onClick={() => {
+                        setAuthorizingContact(contact);
+                        setQuickAuthChallenge(generateSecurityChallengeCode());
+                        setQuickAuthPin('');
+                        setQuickAuthError(null);
+                      }}
+                      title="Authorize Contact with PIN"
+                    >
+                      <KeyRound size={12} /> Authorize
+                    </button>
+                  )}
+
+                  {contact.trustStatus === 'TRUSTED' && (
+                    <button
+                      className={styles.blockActionBtn}
+                      onClick={(e) => handleRevokeAuthorization(contact.id, e)}
+                      title="Revoke Authorized Status"
+                    >
+                      <Lock size={12} /> Revoke
+                    </button>
+                  )}
+
+                  <button
+                    className={contact.trustStatus === 'BLOCKED' ? styles.unblockActionBtn : styles.blockActionBtn}
+                    onClick={(e) => handleToggleBlockContact(contact.id, e)}
+                    title={contact.trustStatus === 'BLOCKED' ? 'Unblock Contact' : 'Blacklist / Block Number'}
+                  >
+                    {contact.trustStatus === 'BLOCKED' ? (
+                      <>
+                        <CheckCircle2 size={12} /> Unblock
+                      </>
+                    ) : (
+                      <>
+                        <Ban size={12} /> Block
+                      </>
+                    )}
+                  </button>
+
                   <button
                     onClick={(e) => handleDeleteContact(contact.id, e)}
                     style={{
@@ -200,9 +409,6 @@ export const ContactsView: React.FC = () => {
                   >
                     <Trash2 size={13} />
                   </button>
-                  <button className={styles.enrollBtn}>
-                    {contact.voiceProfileStatus === 'ENROLLED' ? 'Re-enroll' : 'Enroll Biometrics'}
-                  </button>
                 </div>
               </div>
             </Card>
@@ -210,45 +416,222 @@ export const ContactsView: React.FC = () => {
         </div>
       )}
 
-      {/* Add Contact Modal */}
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Register New Contact">
+      {/* Add Contact Modal with Security Gate */}
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Register & Authorize Contact">
         <form onSubmit={handleCreateContact} className={styles.modalForm}>
           <Input
-            label="Full Name"
+            label="Full Name *"
             placeholder="e.g. Priyanshu Sharma"
             value={newContactName}
             onChange={(e) => setNewContactName(e.target.value)}
             required
           />
-          <Input
-            label="Phone Number"
-            placeholder="e.g. +91 98765 00000"
-            value={newContactPhone}
-            onChange={(e) => setNewContactPhone(e.target.value)}
-          />
-          <Input
-            label="Email Address"
-            type="email"
-            placeholder="e.g. priyanshu@example.com"
-            value={newContactEmail}
-            onChange={(e) => setNewContactEmail(e.target.value)}
-          />
-          <Input
-            label="Organization"
-            placeholder="e.g. Finance Operations / Security"
-            value={newContactOrg}
-            onChange={(e) => setNewContactOrg(e.target.value)}
-          />
+
+          <div>
+            <Input
+              label="Phone Number (Required for Biometric Registry) *"
+              placeholder="e.g. +91 98765 43210"
+              value={newContactPhone}
+              onChange={(e) => {
+                setNewContactPhone(e.target.value);
+                setPhoneError(null);
+              }}
+              required
+            />
+            {phoneError && (
+              <div className={styles.securityAlert} style={{ marginTop: '6px' }}>
+                <AlertTriangle size={14} />
+                <span>{phoneError}</span>
+              </div>
+            )}
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <Input
+              label="Email Address"
+              type="email"
+              placeholder="e.g. priyanshu@example.com"
+              value={newContactEmail}
+              onChange={(e) => setNewContactEmail(e.target.value)}
+            />
+            <Input
+              label="Organization / Department"
+              placeholder="e.g. Financial Security"
+              value={newContactOrg}
+              onChange={(e) => setNewContactOrg(e.target.value)}
+            />
+          </div>
+
+          {/* Security Clearance Selection */}
+          <div>
+            <label style={{ fontSize: '0.82rem', fontWeight: 600, color: '#f1f5f9', display: 'block', marginBottom: '8px' }}>
+              Security Clearance & Trust Classification:
+            </label>
+            <div className={styles.trustSelector}>
+              <button
+                type="button"
+                className={`${styles.trustOption} ${newContactTrust === 'NEUTRAL' ? styles.trustOptionActiveNeutral : ''}`}
+                onClick={() => {
+                  setNewContactTrust('NEUTRAL');
+                  setAuthError(null);
+                }}
+              >
+                <ShieldAlert size={16} />
+                <span>UNVERIFIED</span>
+                <span style={{ fontSize: '0.65rem', opacity: 0.8 }}>Monitored Line</span>
+              </button>
+
+              <button
+                type="button"
+                className={`${styles.trustOption} ${newContactTrust === 'TRUSTED' ? styles.trustOptionActiveTrusted : ''}`}
+                onClick={() => setNewContactTrust('TRUSTED')}
+              >
+                <ShieldCheck size={16} />
+                <span>AUTHORIZED</span>
+                <span style={{ fontSize: '0.65rem', opacity: 0.8 }}>Requires Security PIN</span>
+              </button>
+
+              <button
+                type="button"
+                className={`${styles.trustOption} ${newContactTrust === 'BLOCKED' ? styles.trustOptionActiveBlocked : ''}`}
+                onClick={() => {
+                  setNewContactTrust('BLOCKED');
+                  setAuthError(null);
+                }}
+              >
+                <Ban size={16} />
+                <span>BLOCKED</span>
+                <span style={{ fontSize: '0.65rem', opacity: 0.8 }}>Restricted Threat</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Security PIN Authorization Challenge (Required when TRUSTED is selected) */}
+          {newContactTrust === 'TRUSTED' && (
+            <div className={styles.securityBox}>
+              <div className={styles.securityHeader}>
+                <KeyRound size={16} />
+                <span>Security Authorization Gate</span>
+              </div>
+              <p style={{ fontSize: '0.78rem', color: '#94a3b8', margin: 0 }}>
+                To designate this phone number as an <strong>Authorized & Trusted Line</strong>, enter the Master Security PIN (<code>{DEFAULT_MASTER_SECURITY_PIN}</code>) or apply the Challenge Code:
+              </p>
+
+              <div className={styles.challengeRow}>
+                <span className={styles.challengeCodeBadge}>{activeChallengeCode}</span>
+                <div className={styles.challengeActions}>
+                  <button
+                    type="button"
+                    className={styles.challengeBtn}
+                    onClick={() => setSecurityPin(activeChallengeCode)}
+                  >
+                    Insert Code
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.challengeBtn}
+                    onClick={() => setActiveChallengeCode(generateSecurityChallengeCode())}
+                    title="Generate New Challenge Code"
+                  >
+                    <RefreshCw size={11} /> Refresh
+                  </button>
+                </div>
+              </div>
+
+              <Input
+                placeholder={`Enter Master PIN (${DEFAULT_MASTER_SECURITY_PIN}) or ${activeChallengeCode}`}
+                value={securityPin}
+                onChange={(e) => {
+                  setSecurityPin(e.target.value);
+                  setAuthError(null);
+                }}
+              />
+
+              {authError && (
+                <div className={styles.securityAlert}>
+                  <AlertTriangle size={14} />
+                  <span>{authError}</span>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className={styles.formActions}>
-            <Button variant="outline" type="button" onClick={() => setIsModalOpen(false)}>
+            <Button variant="outline" type="button" onClick={handleCloseModal}>
               Cancel
             </Button>
             <Button variant="primary" type="submit">
-              Save Contact
+              Register Contact
             </Button>
           </div>
         </form>
       </Modal>
+
+      {/* Quick Authorization Modal for promoting an Unverified contact */}
+      {authorizingContact && (
+        <Modal
+          isOpen={!!authorizingContact}
+          onClose={handleCloseQuickAuthModal}
+          title={`Authorize Telecom Line — ${authorizingContact.name}`}
+        >
+          <form onSubmit={handleExecuteQuickAuth} className={styles.modalForm}>
+            <div style={{ background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.25)', padding: '12px', borderRadius: '8px' }}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#f8fafc' }}>{authorizingContact.name}</div>
+              <div style={{ fontSize: '0.8rem', color: '#38bdf8' }}>{authorizingContact.phone}</div>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
+                Elevating this contact to <strong>AUTHORIZED (TRUSTED)</strong> validates its biometric profile and excludes it from baseline spoof alerts.
+              </div>
+            </div>
+
+            <div className={styles.challengeRow}>
+              <span className={styles.challengeCodeBadge}>{quickAuthChallenge}</span>
+              <div className={styles.challengeActions}>
+                <button
+                  type="button"
+                  className={styles.challengeBtn}
+                  onClick={() => setQuickAuthPin(quickAuthChallenge)}
+                >
+                  Insert Code
+                </button>
+                <button
+                  type="button"
+                  className={styles.challengeBtn}
+                  onClick={() => setQuickAuthChallenge(generateSecurityChallengeCode())}
+                >
+                  <RefreshCw size={11} /> Refresh
+                </button>
+              </div>
+            </div>
+
+            <Input
+              label="Master Security PIN or Challenge Token *"
+              placeholder={`Enter PIN (${DEFAULT_MASTER_SECURITY_PIN}) or ${quickAuthChallenge}`}
+              value={quickAuthPin}
+              onChange={(e) => {
+                setQuickAuthPin(e.target.value);
+                setQuickAuthError(null);
+              }}
+              required
+            />
+
+            {quickAuthError && (
+              <div className={styles.securityAlert}>
+                <AlertTriangle size={14} />
+                <span>{quickAuthError}</span>
+              </div>
+            )}
+
+            <div className={styles.formActions}>
+              <Button variant="outline" type="button" onClick={handleCloseQuickAuthModal}>
+                Cancel
+              </Button>
+              <Button variant="primary" type="submit" leftIcon={<ShieldCheck size={16} />}>
+                Authorize Line
+              </Button>
+            </div>
+          </form>
+        </Modal>
+      )}
     </div>
   );
 };

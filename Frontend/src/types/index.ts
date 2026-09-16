@@ -196,6 +196,10 @@ export interface Contact {
   riskHistory: Array<{ date: string; riskScore: number }>;
   totalCalls: number;
   createdAt: string;
+  isAuthorized?: boolean;
+  authorizedAt?: string;
+  authorizedBy?: string;
+  securityClearance?: 'HIGH' | 'STANDARD' | 'RESTRICTED';
 }
 
 // --- Analytics Metric ---
