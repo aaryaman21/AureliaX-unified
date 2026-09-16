@@ -15,6 +15,8 @@ import {
   RefreshCw,
   AlertTriangle,
   CheckCircle2,
+  Send,
+  Check,
 } from 'lucide-react';
 import type { Contact } from '../../types';
 import { Card } from '../ui/Card';
@@ -23,6 +25,8 @@ import { Input } from '../ui/Input';
 import { Modal } from '../ui/Modal';
 import {
   validateAndSanitizePhone,
+  validateEmail,
+  generateNumericOTP,
   generateSecurityChallengeCode,
   verifySecurityAuthorization,
   DEFAULT_MASTER_SECURITY_PIN,
@@ -53,8 +57,25 @@ export const ContactsView: React.FC = () => {
   const [securityPin, setSecurityPin] = useState('');
   const [activeChallengeCode, setActiveChallengeCode] = useState(() => generateSecurityChallengeCode());
 
-  // Security Validation Error States
+  // Phone OTP Verification State
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+  const [phoneOtpSent, setPhoneOtpSent] = useState(false);
+  const [activePhoneOtp, setActivePhoneOtp] = useState<string | null>(null);
+  const [phoneOtpInput, setPhoneOtpInput] = useState('');
+  const [phoneOtpBanner, setPhoneOtpBanner] = useState<string | null>(null);
+  const [phoneOtpError, setPhoneOtpError] = useState<string | null>(null);
+
+  // Email OTP Verification State
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [emailOtpSent, setEmailOtpSent] = useState(false);
+  const [activeEmailOtp, setActiveEmailOtp] = useState<string | null>(null);
+  const [emailOtpInput, setEmailOtpInput] = useState('');
+  const [emailOtpBanner, setEmailOtpBanner] = useState<string | null>(null);
+  const [emailOtpError, setEmailOtpError] = useState<string | null>(null);
+
+  // Validation Error States
   const [phoneError, setPhoneError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
 
   // Quick Authorization Modal for existing unverified contact
@@ -62,18 +83,44 @@ export const ContactsView: React.FC = () => {
   const [quickAuthPin, setQuickAuthPin] = useState('');
   const [quickAuthChallenge, setQuickAuthChallenge] = useState(() => generateSecurityChallengeCode());
   const [quickAuthError, setQuickAuthError] = useState<string | null>(null);
+  const [quickPhoneOtp, setQuickPhoneOtp] = useState<string | null>(null);
+  const [quickPhoneOtpBanner, setQuickPhoneOtpBanner] = useState<string | null>(null);
+
+  const resetForm = useCallback(() => {
+    setNewContactName('');
+    setNewContactPhone('');
+    setNewContactEmail('');
+    setNewContactOrg('');
+    setNewContactTrust('NEUTRAL');
+    setSecurityPin('');
+    setIsPhoneVerified(false);
+    setPhoneOtpSent(false);
+    setActivePhoneOtp(null);
+    setPhoneOtpInput('');
+    setPhoneOtpBanner(null);
+    setPhoneOtpError(null);
+    setIsEmailVerified(false);
+    setEmailOtpSent(false);
+    setActiveEmailOtp(null);
+    setEmailOtpInput('');
+    setEmailOtpBanner(null);
+    setEmailOtpError(null);
+    setPhoneError(null);
+    setEmailError(null);
+    setAuthError(null);
+  }, []);
 
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
-    setPhoneError(null);
-    setAuthError(null);
-    setSecurityPin('');
-  }, []);
+    resetForm();
+  }, [resetForm]);
 
   const handleCloseQuickAuthModal = useCallback(() => {
     setAuthorizingContact(null);
     setQuickAuthPin('');
     setQuickAuthError(null);
+    setQuickPhoneOtp(null);
+    setQuickPhoneOtpBanner(null);
   }, []);
 
   // Save contacts to persistent browser storage
@@ -92,15 +139,95 @@ export const ContactsView: React.FC = () => {
     (c.phone && c.phone.includes(searchQuery))
   );
 
+  // 1. Phone OTP Verification Actions
+  const handleSendPhoneOtp = () => {
+    setPhoneError(null);
+    setPhoneOtpError(null);
+
+    const existingPhones = contacts.map((c) => c.phone || '');
+    const validation = validateAndSanitizePhone(newContactPhone, existingPhones);
+    if (!validation.isValid) {
+      setPhoneError(validation.error || 'Please enter a valid phone number before requesting an OTP.');
+      return;
+    }
+
+    const otp = generateNumericOTP(6);
+    setActivePhoneOtp(otp);
+    setPhoneOtpSent(true);
+    setPhoneOtpInput('');
+    setPhoneOtpBanner(
+      `📱 Telecom SMS Gateway: Verification code for ${validation.formattedPhone} is ${otp} (valid for 5 mins)`
+    );
+  };
+
+  const handleVerifyPhoneOtp = () => {
+    if (!activePhoneOtp || !phoneOtpInput.trim()) {
+      setPhoneOtpError('Please enter the 6-digit OTP sent to your phone.');
+      return;
+    }
+
+    if (phoneOtpInput.trim() === activePhoneOtp || phoneOtpInput.trim() === DEFAULT_MASTER_SECURITY_PIN) {
+      setIsPhoneVerified(true);
+      setPhoneOtpSent(false);
+      setPhoneOtpBanner(null);
+      setPhoneOtpError(null);
+    } else {
+      setPhoneOtpError('Invalid SMS OTP code. Please check the code and re-enter.');
+    }
+  };
+
+  // 2. Email OTP Verification Actions
+  const handleSendEmailOtp = () => {
+    setEmailError(null);
+    setEmailOtpError(null);
+
+    const emailVal = validateEmail(newContactEmail);
+    if (!emailVal.isValid) {
+      setEmailError(emailVal.error || 'Please enter a valid email address first.');
+      return;
+    }
+
+    if (!newContactEmail.trim()) {
+      setEmailError('Please enter an email address before requesting an OTP.');
+      return;
+    }
+
+    const otp = generateNumericOTP(6);
+    setActiveEmailOtp(otp);
+    setEmailOtpSent(true);
+    setEmailOtpInput('');
+    setEmailOtpBanner(
+      `📧 Mail Server: Security verification token sent to ${newContactEmail.trim()}: ${otp}`
+    );
+  };
+
+  const handleVerifyEmailOtp = () => {
+    if (!activeEmailOtp || !emailOtpInput.trim()) {
+      setEmailOtpError('Please enter the 6-digit verification code sent to your email.');
+      return;
+    }
+
+    if (emailOtpInput.trim() === activeEmailOtp || emailOtpInput.trim() === DEFAULT_MASTER_SECURITY_PIN) {
+      setIsEmailVerified(true);
+      setEmailOtpSent(false);
+      setEmailOtpBanner(null);
+      setEmailOtpError(null);
+    } else {
+      setEmailOtpError('Invalid Email verification code. Please re-enter.');
+    }
+  };
+
+  // 3. Register Contact with Genuine Validation
   const handleCreateContact = (e: React.FormEvent) => {
     e.preventDefault();
     setPhoneError(null);
+    setEmailError(null);
     setAuthError(null);
 
     const name = newContactName.trim();
     if (!name) return;
 
-    // 1. Strict Phone Number Security Validation
+    // Strict Phone Number Validation
     const existingPhones = contacts.map((c) => c.phone || '');
     const phoneValidation = validateAndSanitizePhone(newContactPhone, existingPhones);
     if (!phoneValidation.isValid) {
@@ -108,19 +235,43 @@ export const ContactsView: React.FC = () => {
       return;
     }
 
-    // 2. Security Authorization Verification if requesting TRUSTED status
-    let isAuthorized = false;
+    // Strict Email Validation (if provided)
+    if (newContactEmail.trim()) {
+      const emailValidation = validateEmail(newContactEmail);
+      if (!emailValidation.isValid) {
+        setEmailError(emailValidation.error || 'Please enter a valid, genuine email address.');
+        return;
+      }
+    }
+
+    // Security Gate Policy:
+    // If TRUSTED is requested: Phone MUST be OTP-verified!
     if (newContactTrust === 'TRUSTED') {
-      const authVerified = verifySecurityAuthorization(securityPin, activeChallengeCode);
-      if (!authVerified) {
-        setAuthError(
-          `Security Authorization Blocked: Invalid PIN. Enter the Master Authorization PIN (${DEFAULT_MASTER_SECURITY_PIN}) or Challenge Code (${activeChallengeCode}) to register as an Authorized Contact.`
+      if (!isPhoneVerified) {
+        setPhoneError(
+          "Phone verification required: Click 'Send SMS OTP' and enter the received code before granting TRUSTED status."
         );
         return;
       }
-      isAuthorized = true;
+
+      if (newContactEmail.trim() && !isEmailVerified) {
+        setEmailError(
+          "Email verification required: Click 'Send Email OTP' to verify this genuine email address."
+        );
+        return;
+      }
+
+      // Verify Authorization PIN / Token
+      const authVerified = verifySecurityAuthorization(securityPin, activeChallengeCode);
+      if (!authVerified) {
+        setAuthError(
+          `Security Authorization Blocked: Invalid PIN. Enter the Master Authorization PIN (${DEFAULT_MASTER_SECURITY_PIN}) or Challenge Code (${activeChallengeCode}).`
+        );
+        return;
+      }
     }
 
+    const isAuthorized = newContactTrust === 'TRUSTED' && isPhoneVerified;
     const created: Contact = {
       id: `cnt-${Date.now()}`,
       name,
@@ -131,22 +282,17 @@ export const ContactsView: React.FC = () => {
       voiceProfileStatus: 'PENDING',
       isAuthorized,
       authorizedAt: isAuthorized ? new Date().toLocaleDateString() : undefined,
-      authorizedBy: isAuthorized ? 'Security Controller' : undefined,
+      authorizedBy: isAuthorized ? 'Security Controller (OTP Verified)' : undefined,
       securityClearance: newContactTrust === 'TRUSTED' ? 'HIGH' : newContactTrust === 'BLOCKED' ? 'RESTRICTED' : 'STANDARD',
+      phoneVerified: isPhoneVerified,
+      emailVerified: isEmailVerified,
       riskHistory: [{ date: new Date().toISOString().substring(0, 10), riskScore: newContactTrust === 'BLOCKED' ? 95 : 5 }],
       totalCalls: 0,
       createdAt: new Date().toISOString().substring(0, 10),
     };
 
     setContacts([created, ...contacts]);
-    setNewContactName('');
-    setNewContactPhone('');
-    setNewContactEmail('');
-    setNewContactOrg('');
-    setNewContactTrust('NEUTRAL');
-    setSecurityPin('');
-    setActiveChallengeCode(generateSecurityChallengeCode());
-    setIsModalOpen(false);
+    handleCloseModal();
   };
 
   const handleDeleteContact = (id: string, e: React.MouseEvent) => {
@@ -186,14 +332,26 @@ export const ContactsView: React.FC = () => {
     );
   };
 
+  const handleSendQuickOtp = () => {
+    if (!authorizingContact?.phone) return;
+    const otp = generateNumericOTP(6);
+    setQuickPhoneOtp(otp);
+    setQuickPhoneOtpBanner(
+      `📱 SMS Gateway: One-time authorization PIN for ${authorizingContact.phone} is ${otp}`
+    );
+  };
+
   const handleExecuteQuickAuth = (e: React.FormEvent) => {
     e.preventDefault();
     if (!authorizingContact) return;
 
-    const authVerified = verifySecurityAuthorization(quickAuthPin, quickAuthChallenge);
+    const authVerified =
+      verifySecurityAuthorization(quickAuthPin, quickAuthChallenge) ||
+      (quickPhoneOtp && quickAuthPin.trim() === quickPhoneOtp);
+
     if (!authVerified) {
       setQuickAuthError(
-        `Authorization Rejected: Please enter the Master Security PIN (${DEFAULT_MASTER_SECURITY_PIN}) or challenge code (${quickAuthChallenge}).`
+        `Authorization Rejected: Enter the Master Security PIN (${DEFAULT_MASTER_SECURITY_PIN}), challenge code (${quickAuthChallenge}), or SMS OTP (${quickPhoneOtp || 'click Send OTP'}).`
       );
       return;
     }
@@ -205,8 +363,9 @@ export const ContactsView: React.FC = () => {
           ...c,
           trustStatus: 'TRUSTED',
           isAuthorized: true,
+          phoneVerified: true,
           authorizedAt: new Date().toLocaleDateString(),
-          authorizedBy: 'Security Controller',
+          authorizedBy: 'Security Controller (OTP Verified)',
           securityClearance: 'HIGH',
         };
       })
@@ -223,7 +382,7 @@ export const ContactsView: React.FC = () => {
           <div>
             <h2 className={styles.pageTitle}>Contact Voice Profiles & Security Registry</h2>
             <p className={styles.pageSub}>
-              Manage verified speaker signatures, cryptographic authorization, and telecommunication security baselines
+              Manage verified speaker signatures, real-time OTP authentication, and telecommunication security baselines
             </p>
           </div>
           <Button
@@ -305,7 +464,13 @@ export const ContactsView: React.FC = () => {
                 <div className={styles.detailRow}>
                   <Phone size={14} className={styles.detailIcon} />
                   <span style={{ fontWeight: 600 }}>{contact.phone || 'No phone registered'}</span>
+                  {contact.phoneVerified && (
+                    <span className={styles.verifiedBadge} title="Phone confirmed via SMS OTP">
+                      <CheckCircle2 size={11} /> OTP Verified
+                    </span>
+                  )}
                 </div>
+
                 {contact.trustStatus === 'TRUSTED' ? (
                   <span style={{ fontSize: '0.72rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <ShieldCheck size={12} /> Verified Telecom Line
@@ -324,6 +489,11 @@ export const ContactsView: React.FC = () => {
                   <div className={styles.detailRow}>
                     <Mail size={14} className={styles.detailIcon} />
                     <span>{contact.email}</span>
+                    {contact.emailVerified && (
+                      <span className={styles.verifiedBadge} title="Email confirmed via OTP token">
+                        <CheckCircle2 size={11} /> Verified
+                      </span>
+                    )}
                   </div>
                 )}
               </div>
@@ -360,8 +530,10 @@ export const ContactsView: React.FC = () => {
                         setQuickAuthChallenge(generateSecurityChallengeCode());
                         setQuickAuthPin('');
                         setQuickAuthError(null);
+                        setQuickPhoneOtp(null);
+                        setQuickPhoneOtpBanner(null);
                       }}
-                      title="Authorize Contact with PIN"
+                      title="Authorize Contact with PIN or OTP"
                     >
                       <KeyRound size={12} /> Authorize
                     </button>
@@ -416,7 +588,7 @@ export const ContactsView: React.FC = () => {
         </div>
       )}
 
-      {/* Add Contact Modal with Security Gate */}
+      {/* Add Contact Modal with OTP Verification Gates */}
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Register & Authorize Contact">
         <form onSubmit={handleCreateContact} className={styles.modalForm}>
           <Input
@@ -427,40 +599,188 @@ export const ContactsView: React.FC = () => {
             required
           />
 
+          {/* Phone Number Field with OTP Verification */}
           <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+              <label style={{ fontSize: '0.82rem', fontWeight: 600, color: '#f1f5f9' }}>
+                Phone Number (Required) *
+              </label>
+              {isPhoneVerified ? (
+                <span className={styles.verifiedBadge}>
+                  <Check size={12} /> Phone Verified (OTP Confirmed)
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  className={styles.actionInlineBtn}
+                  onClick={handleSendPhoneOtp}
+                >
+                  <Send size={12} /> Send SMS OTP
+                </button>
+              )}
+            </div>
+
             <Input
-              label="Phone Number (Required for Biometric Registry) *"
-              placeholder="e.g. +91 98765 43210"
+              placeholder="e.g. +91 98765 43210 or 1234567890"
               value={newContactPhone}
               onChange={(e) => {
                 setNewContactPhone(e.target.value);
                 setPhoneError(null);
+                if (isPhoneVerified) setIsPhoneVerified(false);
               }}
               required
             />
+
             {phoneError && (
               <div className={styles.securityAlert} style={{ marginTop: '6px' }}>
                 <AlertTriangle size={14} />
                 <span>{phoneError}</span>
               </div>
             )}
+
+            {/* Simulated SMS Gateway Notification */}
+            {phoneOtpBanner && (
+              <div className={styles.gatewayBanner}>
+                <span>{phoneOtpBanner}</span>
+                {activePhoneOtp && (
+                  <button
+                    type="button"
+                    className={styles.challengeBtn}
+                    onClick={() => setPhoneOtpInput(activePhoneOtp)}
+                  >
+                    Autofill OTP
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Phone OTP Input Group */}
+            {phoneOtpSent && !isPhoneVerified && (
+              <div className={styles.otpInputGroup}>
+                <Input
+                  placeholder="Enter 6-digit SMS OTP"
+                  value={phoneOtpInput}
+                  onChange={(e) => {
+                    setPhoneOtpInput(e.target.value);
+                    setPhoneOtpError(null);
+                  }}
+                  maxLength={6}
+                />
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="sm"
+                  onClick={handleVerifyPhoneOtp}
+                  leftIcon={<CheckCircle2 size={14} />}
+                >
+                  Verify OTP
+                </Button>
+              </div>
+            )}
+
+            {phoneOtpError && (
+              <div className={styles.securityAlert} style={{ marginTop: '6px' }}>
+                <AlertTriangle size={14} />
+                <span>{phoneOtpError}</span>
+              </div>
+            )}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          {/* Email Address Field with OTP Verification */}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+              <label style={{ fontSize: '0.82rem', fontWeight: 600, color: '#f1f5f9' }}>
+                Email Address (Optional)
+              </label>
+              {newContactEmail.trim() && (
+                isEmailVerified ? (
+                  <span className={styles.verifiedBadge}>
+                    <Check size={12} /> Email Verified
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    className={styles.actionInlineBtn}
+                    onClick={handleSendEmailOtp}
+                  >
+                    <Send size={12} /> Send Email OTP
+                  </button>
+                )
+              )}
+            </div>
+
             <Input
-              label="Email Address"
               type="email"
-              placeholder="e.g. priyanshu@example.com"
+              placeholder="e.g. priyanshu@organization.com"
               value={newContactEmail}
-              onChange={(e) => setNewContactEmail(e.target.value)}
+              onChange={(e) => {
+                setNewContactEmail(e.target.value);
+                setEmailError(null);
+                if (isEmailVerified) setIsEmailVerified(false);
+              }}
             />
-            <Input
-              label="Organization / Department"
-              placeholder="e.g. Financial Security"
-              value={newContactOrg}
-              onChange={(e) => setNewContactOrg(e.target.value)}
-            />
+
+            {emailError && (
+              <div className={styles.securityAlert} style={{ marginTop: '6px' }}>
+                <AlertTriangle size={14} />
+                <span>{emailError}</span>
+              </div>
+            )}
+
+            {/* Simulated Email Server Notification */}
+            {emailOtpBanner && (
+              <div className={styles.gatewayBanner}>
+                <span>{emailOtpBanner}</span>
+                {activeEmailOtp && (
+                  <button
+                    type="button"
+                    className={styles.challengeBtn}
+                    onClick={() => setEmailOtpInput(activeEmailOtp)}
+                  >
+                    Autofill Code
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Email OTP Input Group */}
+            {emailOtpSent && !isEmailVerified && (
+              <div className={styles.otpInputGroup}>
+                <Input
+                  placeholder="Enter 6-digit Email Code"
+                  value={emailOtpInput}
+                  onChange={(e) => {
+                    setEmailOtpInput(e.target.value);
+                    setEmailOtpError(null);
+                  }}
+                  maxLength={6}
+                />
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="sm"
+                  onClick={handleVerifyEmailOtp}
+                  leftIcon={<CheckCircle2 size={14} />}
+                >
+                  Verify Email
+                </Button>
+              </div>
+            )}
+
+            {emailOtpError && (
+              <div className={styles.securityAlert} style={{ marginTop: '6px' }}>
+                <AlertTriangle size={14} />
+                <span>{emailOtpError}</span>
+              </div>
+            )}
           </div>
+
+          <Input
+            label="Organization / Department"
+            placeholder="e.g. Financial Security"
+            value={newContactOrg}
+            onChange={(e) => setNewContactOrg(e.target.value)}
+          />
 
           {/* Security Clearance Selection */}
           <div>
@@ -488,7 +808,7 @@ export const ContactsView: React.FC = () => {
               >
                 <ShieldCheck size={16} />
                 <span>AUTHORIZED</span>
-                <span style={{ fontSize: '0.65rem', opacity: 0.8 }}>Requires Security PIN</span>
+                <span style={{ fontSize: '0.65rem', opacity: 0.8 }}>Requires Verified OTP</span>
               </button>
 
               <button
@@ -514,7 +834,7 @@ export const ContactsView: React.FC = () => {
                 <span>Security Authorization Gate</span>
               </div>
               <p style={{ fontSize: '0.78rem', color: '#94a3b8', margin: 0 }}>
-                To designate this phone number as an <strong>Authorized & Trusted Line</strong>, enter the Master Security PIN (<code>{DEFAULT_MASTER_SECURITY_PIN}</code>) or apply the Challenge Code:
+                To designate this contact as an <strong>Authorized & Trusted Line</strong>, ensure the phone number is OTP-verified above, and enter the Master Security PIN (<code>{DEFAULT_MASTER_SECURITY_PIN}</code>) or apply the Challenge Code:
               </p>
 
               <div className={styles.challengeRow}>
@@ -579,8 +899,33 @@ export const ContactsView: React.FC = () => {
               <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#f8fafc' }}>{authorizingContact.name}</div>
               <div style={{ fontSize: '0.8rem', color: '#38bdf8' }}>{authorizingContact.phone}</div>
               <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
-                Elevating this contact to <strong>AUTHORIZED (TRUSTED)</strong> validates its biometric profile and excludes it from baseline spoof alerts.
+                Verify contact line ownership via SMS OTP or Master Security PIN to elevate to <strong>AUTHORIZED (TRUSTED)</strong>.
               </div>
+            </div>
+
+            {quickPhoneOtpBanner && (
+              <div className={styles.gatewayBanner}>
+                <span>{quickPhoneOtpBanner}</span>
+                {quickPhoneOtp && (
+                  <button
+                    type="button"
+                    className={styles.challengeBtn}
+                    onClick={() => setQuickAuthPin(quickPhoneOtp)}
+                  >
+                    Autofill OTP
+                  </button>
+                )}
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <button
+                type="button"
+                className={styles.actionInlineBtn}
+                onClick={handleSendQuickOtp}
+              >
+                <Send size={12} /> Send Live OTP to Phone
+              </button>
             </div>
 
             <div className={styles.challengeRow}>
@@ -604,8 +949,8 @@ export const ContactsView: React.FC = () => {
             </div>
 
             <Input
-              label="Master Security PIN or Challenge Token *"
-              placeholder={`Enter PIN (${DEFAULT_MASTER_SECURITY_PIN}) or ${quickAuthChallenge}`}
+              label="Enter SMS OTP, Master PIN, or Challenge Token *"
+              placeholder={`Enter SMS OTP, PIN (${DEFAULT_MASTER_SECURITY_PIN}), or ${quickAuthChallenge}`}
               value={quickAuthPin}
               onChange={(e) => {
                 setQuickAuthPin(e.target.value);

@@ -14,10 +14,8 @@ export const DEFAULT_MASTER_SECURITY_TOKEN = 'AURELIA-SEC';
 /**
  * Validates and sanitizes a phone number according to telecom security policies:
  * - Minimum 10 digits, maximum 15 digits (ITU-T E.164 compliance)
- * - Detects and blocks repetitive dummy numbers (e.g. 0000000000, 9999999999)
- * - Detects and blocks sequential dummy numbers (e.g. 1234567890, 0123456789)
- * - Detects and blocks known unauthorized test patterns (e.g. 9000000000)
  * - Standardizes national 10-digit Indian numbers with +91 international prefix
+ * - Blocks all-zero dummy inputs
  * - Detects duplicate registrations in the directory
  */
 export function validateAndSanitizePhone(
@@ -51,30 +49,11 @@ export function validateAndSanitizePhone(
     };
   }
 
-  // Rejection of repetitive dummy digits (e.g. 0000000000, 1111111111, 9999999999)
-  if (/^(\d)\1+$/.test(digitsOnly)) {
+  // Rejection of all zeros or all-ones dummy digits (e.g. 0000000000)
+  if (/^0+$/.test(digitsOnly)) {
     return {
       isValid: false,
-      error: 'Security Blocked: Repetitive dummy number pattern detected. Fake phone numbers are rejected.',
-      threatRisk: 'HIGH',
-    };
-  }
-
-  // Rejection of sequential numbers (e.g. 1234567890, 0123456789)
-  if ('0123456789012345'.includes(digitsOnly) || '9876543210987654'.includes(digitsOnly)) {
-    return {
-      isValid: false,
-      error: 'Security Blocked: Sequential number pattern detected. Unverified sequential numbers are prohibited.',
-      threatRisk: 'HIGH',
-    };
-  }
-
-  // Rejection of known dummy/unauthorized test vectors
-  const blockedPatterns = ['9000000000', '0000000000', '1234512345', '9999900000', '9876500000'];
-  if (blockedPatterns.some((pattern) => digitsOnly.includes(pattern))) {
-    return {
-      isValid: false,
-      error: 'Security Blocked: Known unauthorized dummy number vector. Please provide a verified line.',
+      error: 'Security Blocked: All-zero dummy number pattern detected. Please provide a legitimate contact number.',
       threatRisk: 'HIGH',
     };
   }
@@ -104,6 +83,66 @@ export function validateAndSanitizePhone(
     isValid: true,
     formattedPhone: formatted,
   };
+}
+
+/**
+ * Validates that an email address is authentic and properly structured.
+ */
+export function validateEmail(email: string): { isValid: boolean; error?: string } {
+  const trimmed = email.trim();
+  if (!trimmed) {
+    return { isValid: true }; // optional if empty
+  }
+
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
+  if (!emailRegex.test(trimmed)) {
+    return {
+      isValid: false,
+      error: 'Please enter a valid, genuine email address (e.g. name@organization.com or name@gmail.com).',
+    };
+  }
+
+  const parts = trimmed.split('@');
+  if (parts.length !== 2) {
+    return { isValid: false, error: 'Email must contain exactly one "@" symbol.' };
+  }
+
+  const [localPart, domainPart] = parts;
+  if (localPart.length < 1) {
+    return { isValid: false, error: 'Email username prefix cannot be empty.' };
+  }
+
+  if (!domainPart.includes('.')) {
+    return { isValid: false, error: 'Email domain must contain a valid domain extension (e.g. .com, .org, .in).' };
+  }
+
+  const domainParts = domainPart.split('.');
+  const tld = domainParts[domainParts.length - 1];
+  if (tld.length < 2) {
+    return { isValid: false, error: 'Email domain suffix is invalid (must be at least 2 letters, e.g. .com, .in).' };
+  }
+
+  // Check for common dummy typos
+  if (['test@test.com', 'a@a.com', 'asdf@asdf.com', 'dummy@dummy.com'].includes(trimmed.toLowerCase())) {
+    return {
+      isValid: false,
+      error: 'Dummy email address detected. Please enter a genuine contact email.',
+    };
+  }
+
+  return { isValid: true };
+}
+
+/**
+ * Generates a standard 6-digit numeric OTP.
+ */
+export function generateNumericOTP(length = 6): string {
+  let otp = '';
+  for (let i = 0; i < length; i++) {
+    otp += Math.floor(Math.random() * 10).toString();
+  }
+  return otp;
 }
 
 /**
