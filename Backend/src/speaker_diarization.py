@@ -21,6 +21,28 @@ def _hf_token() -> Optional[str]:
         token = os.getenv(name)
         if token:
             return token
+
+    # Check for .env file in Backend or project root
+    search_dirs = [
+        Path(__file__).resolve().parent.parent,
+        Path(__file__).resolve().parent.parent.parent,
+    ]
+    for directory in search_dirs:
+        env_file = directory / ".env"
+        if env_file.is_file():
+            try:
+                for line in env_file.read_text(encoding="utf-8").splitlines():
+                    line = line.strip()
+                    if line.startswith("#") or "=" not in line:
+                        continue
+                    key, val = line.split("=", 1)
+                    key = key.strip()
+                    val = val.strip().strip("'\"")
+                    if key in HF_TOKEN_ENV_VARS and val:
+                        return val
+            except Exception:
+                pass
+
     return None
 
 
