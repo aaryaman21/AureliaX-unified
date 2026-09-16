@@ -16,6 +16,8 @@ import {
   FileAudio,
   Users,
   User,
+  History,
+  RotateCcw,
 } from 'lucide-react';
 import type {
   Analysis,
@@ -33,6 +35,11 @@ import {
   generateWaveform,
   analyzeRealAudioFile,
 } from '../../services/analysisService';
+import {
+  fetchAudioLogs,
+  fetchAudioAsFile,
+} from '../../services/voiceShieldApi';
+import type { SavedAudioLog } from '../../services/voiceShieldApi';
 import { RiskBadge } from '../ui/RiskBadge';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
@@ -40,10 +47,16 @@ import styles from './LiveAnalyzer.module.css';
 
 interface LiveAnalyzerProps {
   onCallAnalyzed?: (newCall: Call) => void;
+  audioToRetest?: { url: string; filename: string } | null;
+  onClearAudioToRetest?: () => void;
 }
 
-export const LiveAnalyzer: React.FC<LiveAnalyzerProps> = ({ onCallAnalyzed }) => {
-  const [selectedSource, setSelectedSource] = useState<AudioSourceType>('UPLOAD');
+export const LiveAnalyzer: React.FC<LiveAnalyzerProps> = ({
+  onCallAnalyzed,
+  audioToRetest,
+  onClearAudioToRetest,
+}) => {
+  const [selectedSource, setSelectedSource] = useState<AudioSourceType | 'SAVED_LIBRARY'>('UPLOAD');
   const [analysisMode, setAnalysisMode] = useState<'single' | 'multispeaker'>('single');
   const [selectedScenarioId, setSelectedScenarioId] = useState<string>(DEMO_SCENARIOS[0].id);
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
@@ -52,6 +65,9 @@ export const LiveAnalyzer: React.FC<LiveAnalyzerProps> = ({ onCallAnalyzed }) =>
   const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [savedLogs, setSavedLogs] = useState<SavedAudioLog[]>([]);
+  const [selectedLogId, setSelectedLogId] = useState<string>('');
 
   const [activeAnalysis, setActiveAnalysis] = useState<Analysis | null>(null);
   const [activeTranscript, setActiveTranscript] = useState<TranscriptSegment[]>([]);
@@ -71,11 +87,66 @@ export const LiveAnalyzer: React.FC<LiveAnalyzerProps> = ({ onCallAnalyzed }) =>
     return () => clearInterval(interval);
   }, [isAnalyzing]);
 
-  const handleSourceChange = (source: AudioSourceType) => {
+  const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (selectedFile) {
+      const url = URL.createObjectURL(selectedFile);
+      setAudioPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setAudioPreviewUrl(null);
+    }
+  }, [selectedFile]);
+
+  const refreshSavedLogs = async () => {
+    try {
+      const logs = await fetchAudioLogs();
+      setSavedLogs(logs);
+    } catch (e) {
+      console.error('Failed to fetch audio logs:', e);
+    }
+  };
+
+  useEffect(() => {
+    refreshSavedLogs();
+  }, []);
+
+  useEffect(() => {
+    if (audioToRetest) {
+      setSelectedSource('UPLOAD');
+      fetchAudioAsFile(audioToRetest.url, audioToRetest.filename)
+        .then((file) => {
+          setSelectedFile(file);
+          setAnalysisError(null);
+          onClearAudioToRetest?.();
+        })
+        .catch((err) => {
+          console.error('Failed to load audio to retest:', err);
+        });
+    }
+  }, [audioToRetest, onClearAudioToRetest]);
+
+  const handleSourceChange = (source: AudioSourceType | 'SAVED_LIBRARY') => {
     setSelectedSource(source);
     setAnalysisError(null);
     if (source === 'UPLOAD') {
       setTimeout(() => fileInputRef.current?.click(), 100);
+    } else if (source === 'SAVED_LIBRARY') {
+      refreshSavedLogs();
+    }
+  };
+
+  const handleSelectSavedLog = async (logId: string) => {
+    setSelectedLogId(logId);
+    const log = savedLogs.find((l) => l.id === logId);
+    if (!log) return;
+    try {
+      const file = await fetchAudioAsFile(log.audio_url, log.filename);
+      setSelectedFile(file);
+      setAnalysisError(null);
+    } catch (err: any) {
+      setAnalysisError(`Failed to load saved audio file: ${err.message}`);
     }
   };
 
@@ -96,8 +167,12 @@ export const LiveAnalyzer: React.FC<LiveAnalyzerProps> = ({ onCallAnalyzed }) =>
     setAnalysisError(null);
 
     // If Audio File mode is selected but no file has been chosen yet, trigger picker
-    if (selectedSource === 'UPLOAD' && !selectedFile) {
-      fileInputRef.current?.click();
+    if ((selectedSource === 'UPLOAD' || selectedSource === 'SAVED_LIBRARY') && !selectedFile) {
+      if (selectedSource === 'UPLOAD') {
+        fileInputRef.current?.click();
+      } else {
+        setAnalysisError('Please choose a saved audio file from the dropdown first.');
+      }
       setIsAnalyzing(false);
       return;
     }
@@ -130,7 +205,10 @@ export const LiveAnalyzer: React.FC<LiveAnalyzerProps> = ({ onCallAnalyzed }) =>
         }
       } else {
         // Fallback / Preset demo scenario mode
-        const res = createAnalysisFromScenario(selectedScenarioId, selectedSource);
+        const res = createAnalysisFromScenario(
+          selectedScenarioId,
+          selectedSource === 'SAVED_LIBRARY' ? 'UPLOAD' : selectedSource
+        );
         callResult = res.call;
         analysisResult = res.analysis;
         transcriptResult = res.transcript;
@@ -219,6 +297,13 @@ export const LiveAnalyzer: React.FC<LiveAnalyzerProps> = ({ onCallAnalyzed }) =>
               <span>Audio / Video File</span>
             </button>
             <button
+              className={`${styles.sourceBtn} ${selectedSource === 'SAVED_LIBRARY' ? styles.sourceActive : ''}`}
+              onClick={() => handleSourceChange('SAVED_LIBRARY')}
+            >
+              <History size={16} />
+              <span>Saved Audio Logs ({savedLogs.length})</span>
+            </button>
+            <button
               className={`${styles.sourceBtn} ${selectedSource === 'API' ? styles.sourceActive : ''}`}
               onClick={() => handleSourceChange('API')}
             >
@@ -227,21 +312,59 @@ export const LiveAnalyzer: React.FC<LiveAnalyzerProps> = ({ onCallAnalyzed }) =>
             </button>
           </div>
 
-          <div className={styles.presetSelectorGroup}>
-            <label className={styles.presetLabel}>Test Scenario Preset:</label>
-            <select
-              className={styles.presetSelect}
-              value={selectedScenarioId}
-              onChange={(e) => setSelectedScenarioId(e.target.value)}
-              disabled={isAnalyzing}
-            >
-              {DEMO_SCENARIOS.map((sc) => (
-                <option key={sc.id} value={sc.id}>
-                  {sc.name} ({sc.language} — {getRiskLabel(sc.expectedRiskLevel)})
-                </option>
-              ))}
-            </select>
-          </div>
+          {selectedSource === 'SAVED_LIBRARY' ? (
+            <div className={styles.presetSelectorGroup}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <label className={styles.presetLabel}>Pick Stored Test Audio:</label>
+                <button
+                  type="button"
+                  onClick={refreshSavedLogs}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#38bdf8',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    fontSize: '0.75rem',
+                  }}
+                  title="Refresh audio logs"
+                >
+                  <RotateCcw size={12} /> Refresh
+                </button>
+              </div>
+              <select
+                className={styles.presetSelect}
+                value={selectedLogId}
+                onChange={(e) => handleSelectSavedLog(e.target.value)}
+                disabled={isAnalyzing}
+              >
+                <option value="">-- Choose past test audio ({savedLogs.length} saved) --</option>
+                {savedLogs.map((log) => (
+                  <option key={log.id} value={log.id}>
+                    {log.filename} — {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} ({log.risk_level} risk, {(log.synthetic_probability * 100).toFixed(0)}% AI)
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            <div className={styles.presetSelectorGroup}>
+              <label className={styles.presetLabel}>Test Scenario Preset:</label>
+              <select
+                className={styles.presetSelect}
+                value={selectedScenarioId}
+                onChange={(e) => setSelectedScenarioId(e.target.value)}
+                disabled={isAnalyzing}
+              >
+                {DEMO_SCENARIOS.map((sc) => (
+                  <option key={sc.id} value={sc.id}>
+                    {sc.name} ({sc.language} — {getRiskLabel(sc.expectedRiskLevel)})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
 
         {/* Audio Separation Pipeline Selector */}
@@ -319,38 +442,56 @@ export const LiveAnalyzer: React.FC<LiveAnalyzerProps> = ({ onCallAnalyzed }) =>
           </div>
         </div>
 
-        {/* Selected Audio File Status Bar */}
+        {/* Selected Audio File Status Bar with Inline Audio Preview */}
         {selectedFile && (
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '12px',
               marginTop: '12px',
               fontSize: '0.82rem',
               color: '#38bdf8',
               background: 'rgba(56, 189, 248, 0.08)',
-              padding: '6px 12px',
+              padding: '8px 14px',
               borderRadius: '6px',
               border: '1px solid rgba(56, 189, 248, 0.3)',
             }}
           >
-            <FileAudio size={16} />
-            <span>
-              Loaded File: <strong>{selectedFile.name}</strong> ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB) — Ready for VoiceShield ML
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: '220px' }}>
+              <FileAudio size={16} />
+              <span>
+                Loaded: <strong>{selectedFile.name}</strong> ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
+              </span>
+            </div>
+
+            {audioPreviewUrl && (
+              <audio
+                controls
+                src={audioPreviewUrl}
+                style={{ height: '30px', maxWidth: '280px', flex: '0 0 auto' }}
+              />
+            )}
+
             <button
-              onClick={() => setSelectedFile(null)}
+              onClick={() => {
+                setSelectedFile(null);
+                setSelectedLogId('');
+              }}
               style={{
-                background: 'transparent',
-                border: 'none',
-                color: '#94a3b8',
+                background: 'rgba(255, 255, 255, 0.06)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                color: '#f87171',
+                padding: '4px 10px',
+                borderRadius: '4px',
                 cursor: 'pointer',
-                marginLeft: 'auto',
-                fontSize: '0.8rem',
+                fontSize: '0.75rem',
+                fontWeight: 500,
               }}
             >
-              Remove
+              Clear
             </button>
           </div>
         )}

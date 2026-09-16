@@ -34,6 +34,8 @@ Backend/models/sih_local_*/extraction_complete_*.json
 Backend/dataset/
 Backend/custom_data/
 Backend/test_audio/
+Backend/storage/audio_logs/*
+!Backend/storage/audio_logs/.gitkeep
 *.sqlite
 *.sqlite3
 

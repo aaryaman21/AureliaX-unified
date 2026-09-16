@@ -48,6 +48,9 @@ class BackendMetaInfo(BaseModel):
     totalChunksAnalyzed: int = 0
     highRiskChunkCount: int = 0
     suspiciousChunkCount: int = 0
+    audioUrl: Optional[str] = None
+    logId: Optional[str] = None
+    fileName: Optional[str] = None
 
 
 class AnalyzeResultWrapper(BaseModel):
@@ -57,3 +60,5 @@ class AnalyzeResultWrapper(BaseModel):
     detectedSpeakers: Optional[int] = 1
     speakers: Optional[List[Dict[str, Any]]] = None
     diarizationSegments: Optional[List[Dict[str, Any]]] = None
+    audioUrl: Optional[str] = None
+    logId: Optional[str] = None

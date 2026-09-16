@@ -340,43 +340,51 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <span className={styles.alertCountBadge}>{alerts.length} Pending</span>
           </div>
           <div className={styles.alertsList}>
-            {alerts.map((alert) => (
-              <div
-                key={alert.id}
-                className={`${styles.alertItem} ${
-                  alert.severity === 'HIGH_RISK' ? styles.highRiskAlertItem : styles.suspiciousAlertItem
-                }`}
-              >
-                <div className={styles.alertIconCol}>
-                  {alert.severity === 'HIGH_RISK' ? (
-                    <ShieldAlert size={20} className={styles.dangerAlertIcon} />
-                  ) : (
-                    <AlertTriangle size={20} className={styles.warnAlertIcon} />
-                  )}
-                </div>
-                <div className={styles.alertMainCol}>
-                  <div className={styles.alertMetaRow}>
-                    <span className={styles.alertType}>{alert.type.replace('_', ' ')}</span>
-                    <span className={styles.alertTime}>{alert.timestamp}</span>
-                  </div>
-                  <p className={styles.alertMessage}>{alert.message}</p>
-                </div>
-                <div className={styles.alertActionCol}>
-                  {!alert.acknowledged ? (
-                    <button
-                      className={styles.ackBtn}
-                      onClick={() => onAcknowledgeAlert(alert.id)}
-                    >
-                      Acknowledge
-                    </button>
-                  ) : (
-                    <span className={styles.ackDoneTag}>
-                      <CheckCircle size={14} /> Resolved
-                    </span>
-                  )}
-                </div>
+            {alerts.length === 0 ? (
+              <div style={{ padding: '36px 16px', textAlign: 'center', color: '#94a3b8', fontSize: '0.85rem' }}>
+                <CheckCircle size={28} color="#10b981" style={{ marginBottom: '8px', opacity: 0.8 }} />
+                <div style={{ fontWeight: 600, color: '#f8fafc', marginBottom: '4px' }}>Zero Active Threat Alerts</div>
+                <div>All monitored voice channels are clean. No deepfake attacks detected.</div>
               </div>
-            ))}
+            ) : (
+              alerts.slice(0, 4).map((alert) => (
+                <div
+                  key={alert.id}
+                  className={`${styles.alertItem} ${
+                    alert.severity === 'HIGH_RISK' ? styles.highRiskAlertItem : styles.suspiciousAlertItem
+                  }`}
+                >
+                  <div className={styles.alertIconCol}>
+                    {alert.severity === 'HIGH_RISK' ? (
+                      <ShieldAlert size={20} className={styles.dangerAlertIcon} />
+                    ) : (
+                      <AlertTriangle size={20} className={styles.warnAlertIcon} />
+                    )}
+                  </div>
+                  <div className={styles.alertMainCol}>
+                    <div className={styles.alertMetaRow}>
+                      <span className={styles.alertType}>{alert.type.replace('_', ' ')}</span>
+                      <span className={styles.alertTime}>{alert.timestamp}</span>
+                    </div>
+                    <p className={styles.alertMessage}>{alert.message}</p>
+                  </div>
+                  <div className={styles.alertActionCol}>
+                    {!alert.acknowledged ? (
+                      <button
+                        className={styles.ackBtn}
+                        onClick={() => onAcknowledgeAlert(alert.id)}
+                      >
+                        Acknowledge
+                      </button>
+                    ) : (
+                      <span className={styles.ackDoneTag}>
+                        <CheckCircle size={14} /> Resolved
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </Card>
 
@@ -400,36 +408,53 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 </tr>
               </thead>
               <tbody>
-                {calls.slice(0, 4).map((call) => (
-                  <tr key={call.id} className={styles.tableRow} onClick={() => onSelectCall(call)}>
-                    <td>
-                      <div className={styles.callerInfoCell}>
-                        <span className={styles.callerName}>{call.caller}</span>
-                        <span className={styles.callerPhone}>{call.callerPhone}</span>
+                {calls.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} style={{ textAlign: 'center', padding: '36px 16px', color: '#94a3b8' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                        <Radio size={24} color="#38bdf8" style={{ opacity: 0.7 }} />
+                        <span style={{ fontSize: '0.9rem', color: '#f8fafc', fontWeight: 500 }}>No Call Records Yet</span>
+                        <span style={{ fontSize: '0.8rem', maxWidth: '300px' }}>
+                          Upload audio or run live voice evaluations to log call telemetry here.
+                        </span>
+                        <Button variant="outline" size="sm" onClick={onNavigateToAnalyzer} style={{ marginTop: '6px' }}>
+                          Run Voice Analysis
+                        </Button>
                       </div>
                     </td>
-                    <td>
-                      <span className={styles.langPill}>{call.language}</span>
-                    </td>
-                    <td>
-                      <RiskBadge score={call.riskScore} riskLevel={call.riskLevel} />
-                    </td>
-                    <td>
-                      <span
-                        className={`${styles.statusPill} ${
-                          call.status === 'BLOCKED'
-                            ? styles.statusBlocked
-                            : styles.statusCompleted
-                        }`}
-                      >
-                        {call.status}
-                      </span>
-                    </td>
-                    <td>
-                      <button className={styles.inspectBtn}>Inspect</button>
-                    </td>
                   </tr>
-                ))}
+                ) : (
+                  calls.slice(0, 4).map((call) => (
+                    <tr key={call.id} className={styles.tableRow} onClick={() => onSelectCall(call)}>
+                      <td>
+                        <div className={styles.callerInfoCell}>
+                          <span className={styles.callerName}>{call.caller}</span>
+                          <span className={styles.callerPhone}>{call.callerPhone}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className={styles.langPill}>{call.language}</span>
+                      </td>
+                      <td>
+                        <RiskBadge score={call.riskScore} riskLevel={call.riskLevel} />
+                      </td>
+                      <td>
+                        <span
+                          className={`${styles.statusPill} ${
+                            call.status === 'BLOCKED'
+                              ? styles.statusBlocked
+                              : styles.statusCompleted
+                          }`}
+                        >
+                          {call.status}
+                        </span>
+                      </td>
+                      <td>
+                        <button className={styles.inspectBtn}>Inspect</button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

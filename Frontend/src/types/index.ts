@@ -168,6 +168,8 @@ export interface Call {
   tags?: string[];
   speakers?: SpeakerAnalysis[];
   diarizationSegments?: DiarizationSegment[];
+  audioUrl?: string;
+  fileName?: string;
 }
 
 // --- Risk Event ---

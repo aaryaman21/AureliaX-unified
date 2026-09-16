@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Call, Notification, RiskEvent } from './types';
-import { MOCK_CALLS, MOCK_NOTIFICATIONS, MOCK_RISK_EVENTS } from './services/mockData';
+import { MOCK_NOTIFICATIONS } from './services/mockData';
+import { fetchAudioLogs } from './services/voiceShieldApi';
+import { formatAudioLogToCall } from './services/analysisService';
 import { Header } from './components/layout/Header';
 import { Sidebar } from './components/layout/Sidebar';
 import type { TabType } from './components/layout/Sidebar';
@@ -27,10 +29,39 @@ export function App() {
 function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
-  const [calls, setCalls] = useState<Call[]>(MOCK_CALLS);
-  const [alerts, setAlerts] = useState<RiskEvent[]>(MOCK_RISK_EVENTS);
+  const [calls, setCalls] = useState<Call[]>([]);
+  const [alerts, setAlerts] = useState<RiskEvent[]>([]);
   const [notifications] = useState<Notification[]>(MOCK_NOTIFICATIONS);
   const [selectedCall, setSelectedCall] = useState<Call | null>(null);
+  const [audioToRetest, setAudioToRetest] = useState<{ url: string; filename: string } | null>(null);
+
+  // Load real saved audio logs from the backend on initial application mount
+  useEffect(() => {
+    fetchAudioLogs()
+      .then((logs) => {
+        if (logs && logs.length > 0) {
+          const loadedCalls = logs.map(formatAudioLogToCall);
+          setCalls(loadedCalls);
+
+          // Populate alert feed with any high risk deepfakes from test history
+          const highRiskAlerts: RiskEvent[] = loadedCalls
+            .filter((c) => c.riskLevel === 'HIGH_RISK')
+            .map((c) => ({
+              id: `evt-${c.id}`,
+              callId: c.id,
+              timestamp: c.startTime,
+              type: 'SYNTHETIC_VOICE',
+              severity: 'HIGH_RISK',
+              message: `High risk deepfake clone detected (${c.riskScore}% score) in test audio "${c.fileName || c.caller}".`,
+              acknowledged: true,
+            }));
+          setAlerts(highRiskAlerts);
+        }
+      })
+      .catch((err) => {
+        console.warn('Could not fetch saved audio logs on start:', err);
+      });
+  }, []);
 
   const activeCallsCount = calls.filter((c) => c.status === 'ACTIVE').length;
   const unreadNotifsCount = notifications.filter((n) => !n.read).length;
@@ -57,6 +88,17 @@ function AppContent() {
     setAlerts((prev) =>
       prev.map((a) => (a.id === alertId ? { ...a, acknowledged: true } : a))
     );
+  };
+
+  const handleRetestCall = (call: Call) => {
+    if (call.audioUrl) {
+      setAudioToRetest({
+        url: call.audioUrl,
+        filename: call.fileName || call.caller,
+      });
+      setSelectedCall(null);
+      setActiveTab('analyzer');
+    }
   };
 
   return (
@@ -97,11 +139,20 @@ function AppContent() {
             )}
 
             {activeTab === 'analyzer' && (
-              <LiveAnalyzer onCallAnalyzed={handleCallAnalyzed} />
+              <LiveAnalyzer
+                onCallAnalyzed={handleCallAnalyzed}
+                audioToRetest={audioToRetest}
+                onClearAudioToRetest={() => setAudioToRetest(null)}
+              />
             )}
 
             {activeTab === 'records' && (
-              <CallRecords calls={calls} onSelectCall={(c) => setSelectedCall(c)} />
+              <CallRecords
+                calls={calls}
+                onSelectCall={(c) => setSelectedCall(c)}
+                onRetestCall={handleRetestCall}
+                onNavigateToAnalyzer={() => setActiveTab('analyzer')}
+              />
             )}
 
             {activeTab === 'contacts' && <ContactsView />}
@@ -116,6 +167,7 @@ function AppContent() {
           <CallDetailModal
             call={selectedCall}
             onClose={() => setSelectedCall(null)}
+            onRetest={handleRetestCall}
           />
         )}
       </div>

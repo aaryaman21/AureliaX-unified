@@ -14,9 +14,10 @@ import styles from './CallDetailModal.module.css';
 interface CallDetailModalProps {
   call: Call | null;
   onClose: () => void;
+  onRetest?: (call: Call) => void;
 }
 
-export const CallDetailModal: React.FC<CallDetailModalProps> = ({ call, onClose }) => {
+export const CallDetailModal: React.FC<CallDetailModalProps> = ({ call, onClose, onRetest }) => {
   if (!call) return null;
 
   const { analysis, transcript } = call;
@@ -32,8 +33,31 @@ export const CallDetailModal: React.FC<CallDetailModalProps> = ({ call, onClose 
               {call.callerPhone || 'Unlisted Number'} • {call.language} • {call.startTime}
             </span>
           </div>
-          <div className={styles.riskBadgeGroup}>
+          <div className={styles.riskBadgeGroup} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <RiskBadge score={call.riskScore} riskLevel={call.riskLevel} />
+            {onRetest && (call.audioUrl || call.fileName) && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onRetest(call);
+                }}
+                style={{
+                  background: 'rgba(56, 189, 248, 0.15)',
+                  border: '1px solid rgba(56, 189, 248, 0.4)',
+                  color: '#38bdf8',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                }}
+              >
+                Re-test in Workbench
+              </button>
+            )}
           </div>
         </div>
 
@@ -62,22 +86,29 @@ export const CallDetailModal: React.FC<CallDetailModalProps> = ({ call, onClose 
           </div>
         )}
 
-        {/* Audio Waveform Simulation Player */}
-        <div className={styles.audioPlayerBox}>
-          <div className={styles.playBtnCircle}>
-            <Play size={18} fill="#ffffff" />
+        {/* Audio Player */}
+        {call.audioUrl ? (
+          <div style={{ padding: '12px 16px', background: 'rgba(15, 23, 42, 0.6)', borderRadius: '8px', border: '1px solid rgba(51, 65, 85, 0.6)' }}>
+            <span style={{ fontSize: '0.78rem', color: '#94a3b8', display: 'block', marginBottom: '6px' }}>Recorded Test Audio Playback:</span>
+            <audio controls src={call.audioUrl} style={{ width: '100%', outline: 'none' }} />
           </div>
-          <div className={styles.playerWaveform}>
-            {Array.from({ length: 32 }).map((_, idx) => (
-              <div
-                key={idx}
-                className={styles.staticBar}
-                style={{ height: `${Math.floor(Math.sin(idx) * 35 + 50)}%` }}
-              />
-            ))}
+        ) : (
+          <div className={styles.audioPlayerBox}>
+            <div className={styles.playBtnCircle}>
+              <Play size={18} fill="#ffffff" />
+            </div>
+            <div className={styles.playerWaveform}>
+              {Array.from({ length: 32 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className={styles.staticBar}
+                  style={{ height: `${Math.floor(Math.sin(idx) * 35 + 50)}%` }}
+                />
+              ))}
+            </div>
+            <span className={styles.playerTime}>{call.duration ? `${call.duration}s` : '02:15'}</span>
           </div>
-          <span className={styles.playerTime}>{call.duration ? `${call.duration}s` : '02:15'}</span>
-        </div>
+        )}
 
         {/* Technical Analysis Grid */}
         {analysis && analysis.metricsSource !== 'classifier_only' && (

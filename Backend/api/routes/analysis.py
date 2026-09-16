@@ -130,6 +130,21 @@ async def analyze_audio(request: Request, file: UploadFile = File(...)):
 
         # Convert raw ML output to frontend data contract
         response_data = format_ml_result_to_analysis(raw_result)
+
+        # Persist test audio log for future re-testing and playback
+        try:
+            from api.routes.audio_logs import save_audio_log
+            duration = float(response_data.get("backend", {}).get("durationSeconds", 0.0))
+            log_meta = save_audio_log(temp_path, file.filename or "uploaded_audio.wav", response_data, duration)
+            response_data["audioUrl"] = log_meta["audio_url"]
+            response_data["logId"] = log_meta["id"]
+            if "backend" in response_data:
+                response_data["backend"]["audioUrl"] = log_meta["audio_url"]
+                response_data["backend"]["logId"] = log_meta["id"]
+                response_data["backend"]["fileName"] = file.filename or "uploaded_audio.wav"
+        except Exception as save_err:
+            print(f"[AudioLogs] Warning: Failed to save audio log: {save_err}")
+
         return response_data
 
     finally:
@@ -152,7 +167,22 @@ async def analyze_multispeaker_audio(file: UploadFile = File(...)):
         from api.main import get_multispeaker_model
 
         raw_result = analyze_multispeaker_call(temp_path, model=get_multispeaker_model())
-        return format_ml_result_to_analysis(raw_result)
+        response_data = format_ml_result_to_analysis(raw_result)
+
+        try:
+            from api.routes.audio_logs import save_audio_log
+            duration = float(response_data.get("backend", {}).get("durationSeconds", 0.0))
+            log_meta = save_audio_log(temp_path, file.filename or "multispeaker_audio.wav", response_data, duration)
+            response_data["audioUrl"] = log_meta["audio_url"]
+            response_data["logId"] = log_meta["id"]
+            if "backend" in response_data:
+                response_data["backend"]["audioUrl"] = log_meta["audio_url"]
+                response_data["backend"]["logId"] = log_meta["id"]
+                response_data["backend"]["fileName"] = file.filename or "multispeaker_audio.wav"
+        except Exception as save_err:
+            print(f"[AudioLogs] Warning: Failed to save multispeaker audio log: {save_err}")
+
+        return response_data
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=f"Audio analysis failed: {exc}") from exc
     except Exception as exc:

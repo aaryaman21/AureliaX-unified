@@ -12,6 +12,71 @@ import {
   analyzeAudioFile as analyzeAudioFileApi,
   analyzeMultispeakerAudioFile as analyzeMultispeakerAudioFileApi,
 } from './voiceShieldApi';
+import type { SavedAudioLog } from './voiceShieldApi';
+
+export function formatAudioLogToCall(log: SavedAudioLog): Call {
+  const analysis: Analysis = log.analysis_result?.analysis || {
+    id: `an-${log.id}`,
+    callId: log.id,
+    timestamp: log.timestamp,
+    syntheticProbability: log.synthetic_probability,
+    speakerSimilarity: 50,
+    emotion: 'Neutral',
+    emotionalConsistency: 85,
+    prosodyScore: 75,
+    pitchVariation: 70,
+    speakingRate: 65,
+    vocalEnergy: 70,
+    rhythm: 80,
+    stressPattern: 75,
+    hesitationIndex: 15,
+    pauseAnomaly: 'LOW',
+    pauseFrequency: 4,
+    avgPauseDuration: 500,
+    abruptPauses: 0,
+    temporalConsistency: 85,
+    avgResponseLatency: 500,
+    turnTakingConsistency: 85,
+    detectedLanguage: (log.detected_language as SupportedLanguage) || 'Unknown',
+    languageConfidence: 95,
+    overallRiskScore: log.risk_score,
+    riskLevel: (log.risk_level as RiskLevel) || 'SAFE',
+    riskFactors: log.analysis_result?.analysis?.riskFactors || [],
+    recommendation: log.risk_level === 'HIGH_RISK' ? 'END_CALL' : log.risk_level === 'SUSPICIOUS' ? 'VERIFY_CALLER' : 'CONTINUE',
+    recommendationReason: log.analysis_result?.analysis?.recommendationReason || 'Evaluated with VoiceShield AI',
+  };
+
+  return {
+    id: log.id,
+    caller: log.filename.replace(/\.[^/.]+$/, ''),
+    callerPhone: '+91 Stored Test Call',
+    startTime: log.timestamp,
+    duration: Math.round(log.duration) || 10,
+    language: (log.detected_language as SupportedLanguage) || 'Unknown',
+    audioSource: 'UPLOAD',
+    riskScore: log.risk_score,
+    riskLevel: (log.risk_level as RiskLevel) || 'SAFE',
+    voiceIntegrity: Math.max(0, Math.round(100 - log.risk_score)),
+    status: log.risk_level === 'HIGH_RISK' ? 'BLOCKED' : 'COMPLETED',
+    analysisId: analysis.id,
+    analysis,
+    transcript: [
+      {
+        id: `tr-${log.id}`,
+        timestamp: '00:01',
+        speaker: 'CALLER',
+        text: `[Audio Test Log: ${log.filename}]`,
+        isSuspicious: log.risk_level === 'HIGH_RISK' || log.risk_level === 'SUSPICIOUS',
+        anomalyNote: log.risk_level === 'HIGH_RISK' ? `${log.synthetic_probability}% synthetic probability` : undefined,
+      },
+    ],
+    tags: [log.detected_language || 'Audio', log.risk_level, 'Saved Test Log'],
+    speakers: log.analysis_result?.speakers,
+    diarizationSegments: log.analysis_result?.diarizationSegments,
+    audioUrl: log.audio_url,
+    fileName: log.filename,
+  };
+}
 
 export async function analyzeRealAudioFile(
   file: File,
@@ -88,6 +153,8 @@ export async function analyzeRealAudioFile(
     ],
     speakers: result.speakers,
     diarizationSegments: result.diarizationSegments,
+    audioUrl: result.audioUrl || result.backend.audioUrl,
+    fileName: file.name,
   };
 
   return { call, analysis, transcript };

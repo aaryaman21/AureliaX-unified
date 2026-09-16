@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Download, Eye } from 'lucide-react';
+import { Search, Download, Eye, RotateCcw, FileAudio, Play } from 'lucide-react';
 import type { Call } from '../../types';
 import { RiskBadge } from '../ui/RiskBadge';
 import { Card } from '../ui/Card';
@@ -11,9 +11,16 @@ import styles from './CallRecords.module.css';
 interface CallRecordsProps {
   calls: Call[];
   onSelectCall: (call: Call) => void;
+  onRetestCall?: (call: Call) => void;
+  onNavigateToAnalyzer?: () => void;
 }
 
-export const CallRecords: React.FC<CallRecordsProps> = ({ calls, onSelectCall }) => {
+export const CallRecords: React.FC<CallRecordsProps> = ({
+  calls,
+  onSelectCall,
+  onRetestCall,
+  onNavigateToAnalyzer,
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [riskFilter, setRiskFilter] = useState<string>('ALL');
   const [languageFilter, setLanguageFilter] = useState<string>('ALL');
@@ -23,6 +30,7 @@ export const CallRecords: React.FC<CallRecordsProps> = ({ calls, onSelectCall })
     const matchesSearch =
       c.caller.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (c.callerPhone && c.callerPhone.includes(searchQuery)) ||
+      (c.fileName && c.fileName.toLowerCase().includes(searchQuery.toLowerCase())) ||
       c.id.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesRisk = riskFilter === 'ALL' || c.riskLevel === riskFilter;
     const matchesLang = languageFilter === 'ALL' || c.language === languageFilter;
@@ -32,6 +40,13 @@ export const CallRecords: React.FC<CallRecordsProps> = ({ calls, onSelectCall })
   const handleRowClick = (call: Call) => {
     setSelectedCallForModal(call);
     onSelectCall(call);
+  };
+
+  const handleRetestClick = (e: React.MouseEvent, call: Call) => {
+    e.stopPropagation();
+    if (onRetestCall) {
+      onRetestCall(call);
+    }
   };
 
   return (
@@ -100,65 +115,100 @@ export const CallRecords: React.FC<CallRecordsProps> = ({ calls, onSelectCall })
           <span className={styles.recordsCount}>{filteredCalls.length} Records Found</span>
         </div>
 
-        <div className={styles.tableContainer}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Call ID</th>
-                <th>Caller Details</th>
-                <th>Start Time</th>
-                <th>Language</th>
-                <th>Audio Source</th>
-                <th>Risk Score</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCalls.map((call) => (
-                <tr
-                  key={call.id}
-                  className={styles.tableRow}
-                  onClick={() => handleRowClick(call)}
-                >
-                  <td className={styles.callIdCell}>{call.id}</td>
-                  <td>
-                    <div className={styles.callerCell}>
-                      <span className={styles.callerName}>{call.caller}</span>
-                      <span className={styles.callerPhone}>{call.callerPhone || 'Unlisted'}</span>
-                    </div>
-                  </td>
-                  <td className={styles.timeCell}>{call.startTime}</td>
-                  <td>
-                    <span className={styles.langBadge}>{call.language}</span>
-                  </td>
-                  <td>
-                    <span className={styles.sourceBadge}>{call.audioSource}</span>
-                  </td>
-                  <td>
-                    <RiskBadge score={call.riskScore} riskLevel={call.riskLevel} />
-                  </td>
-                  <td>
-                    <span
-                      className={`${styles.statusBadge} ${
-                        call.status === 'BLOCKED'
-                          ? styles.statusBlocked
-                          : styles.statusCompleted
-                      }`}
-                    >
-                      {call.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button className={styles.inspectBtn} title="Inspect Full Payload">
-                      <Eye size={15} /> Inspect
-                    </button>
-                  </td>
+        {filteredCalls.length === 0 ? (
+          <div className={styles.emptyState}>
+            <FileAudio size={48} className={styles.emptyIcon} />
+            <h3 className={styles.emptyTitle}>No Audio Test Records Found</h3>
+            <p className={styles.emptyDesc}>
+              No audio records matching your query. Analyze an audio file or stream in the Live Workbench to record and inspect test logs.
+            </p>
+            {onNavigateToAnalyzer && (
+              <Button variant="primary" size="sm" onClick={onNavigateToAnalyzer} leftIcon={<Play size={15} />}>
+                Launch Live Workbench
+              </Button>
+            )}
+          </div>
+        ) : (
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Call / Audio Log</th>
+                  <th>Caller Details</th>
+                  <th>Start Time</th>
+                  <th>Language</th>
+                  <th>Audio Preview</th>
+                  <th>Risk Score</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {filteredCalls.map((call) => (
+                  <tr
+                    key={call.id}
+                    className={styles.tableRow}
+                    onClick={() => handleRowClick(call)}
+                  >
+                    <td className={styles.callIdCell}>{call.fileName || call.id}</td>
+                    <td>
+                      <div className={styles.callerCell}>
+                        <span className={styles.callerName}>{call.caller}</span>
+                        <span className={styles.callerPhone}>{call.callerPhone || 'Unlisted'}</span>
+                      </div>
+                    </td>
+                    <td className={styles.timeCell}>{call.startTime}</td>
+                    <td>
+                      <span className={styles.langBadge}>{call.language}</span>
+                    </td>
+                    <td>
+                      {call.audioUrl ? (
+                        <audio
+                          controls
+                          src={call.audioUrl}
+                          className={styles.audioMiniPlayer}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      ) : (
+                        <span className={styles.sourceBadge}>{call.audioSource}</span>
+                      )}
+                    </td>
+                    <td>
+                      <RiskBadge score={call.riskScore} riskLevel={call.riskLevel} />
+                    </td>
+                    <td>
+                      <span
+                        className={`${styles.statusBadge} ${
+                          call.status === 'BLOCKED'
+                            ? styles.statusBlocked
+                            : styles.statusCompleted
+                        }`}
+                      >
+                        {call.status}
+                      </span>
+                    </td>
+                    <td>
+                      <div className={styles.actionGroup}>
+                        {onRetestCall && (call.audioUrl || call.fileName) && (
+                          <button
+                            className={styles.retestBtn}
+                            onClick={(e) => handleRetestClick(e, call)}
+                            title="Re-run VoiceShield detection with current model"
+                          >
+                            <RotateCcw size={13} /> Re-test
+                          </button>
+                        )}
+                        <button className={styles.inspectBtn} title="Inspect Full Payload">
+                          <Eye size={14} /> Inspect
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </Card>
 
       {/* Detail Modal */}

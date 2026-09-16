@@ -14,7 +14,7 @@ if str(backend_dir) not in sys.path:
     sys.path.insert(0, str(backend_dir))
 
 from voiceshield_inference import VoiceShieldModel, get_runtime_model_dir
-from api.routes import health, analysis
+from api.routes import health, analysis, audio_logs
 
 _model_instance = None
 _multispeaker_model_instance = None
@@ -72,6 +72,7 @@ app.add_middleware(
 # Include Routers under /api
 app.include_router(health.router, prefix="/api")
 app.include_router(analysis.router, prefix="/api")
+app.include_router(audio_logs.router, prefix="/api")
 
 
 if __name__ == "__main__":

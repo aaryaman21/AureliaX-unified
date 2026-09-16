@@ -183,7 +183,7 @@
   border: 1px solid rgba(56, 189, 248, 0.3);
   color: #38bdf8;
   padding: 4px 10px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
@@ -193,4 +193,66 @@
 .inspectBtn:hover {
   background: #0284c7;
   color: #ffffff;
+}
+
+.actionGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.retestBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.retestBtn:hover {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.audioMiniPlayer {
+  height: 28px;
+  max-width: 140px;
+  outline: none;
+  filter: invert(0.85) hue-rotate(180deg);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  gap: 14px;
+}
+
+.emptyIcon {
+  color: #64748b;
+  opacity: 0.7;
+}
+
+.emptyTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.emptyDesc {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  max-width: 440px;
+  line-height: 1.5;
+  margin-bottom: 6px;
 }
