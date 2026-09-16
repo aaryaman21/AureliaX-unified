@@ -1,0 +1,546 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.heroCard {
+  background: var(--color-surface-raised);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 24px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  color: var(--color-blue-400);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.pulseIcon {
+  color: #38bdf8;
+  animation: pulse 1.6s infinite;
+}
+
+.heroTitle {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 6px;
+}
+
+.heroDesc {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+  max-width: 680px;
+  line-height: 1.5;
+}
+
+.heroActionArea {
+  z-index: 2;
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.kpiCard {
+  background: var(--color-navy-800);
+  border: 1px solid var(--color-surface-border);
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: visible;
+  transition: transform var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out);
+}
+
+.kpiCard:hover { z-index: 5; transform: translateY(-3px); border-color: rgba(96, 165, 250, 0.36); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24); }
+
+.kpiIconWrapper {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.kpiContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.kpiLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.kpiValueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.kpiValue {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.kpiTrend {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #38bdf8;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.kpiTrendDanger {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kpiTrendWarn {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #f59e0b;
+}
+
+.kpiTrendSuccess {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #10b981;
+}
+
+.kpiSub {
+  font-size: 0.7rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.kpiDetail { position: absolute; left: 12px; right: 12px; bottom: calc(100% + 8px); z-index: 6; padding: 9px 11px; border: 1px solid rgba(245, 190, 70, 0.28); border-radius: 9px; color: var(--color-text-secondary); background: rgba(7, 16, 30, 0.97); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.34); font-size: 0.72rem; line-height: 1.35; opacity: 0; pointer-events: none; transform: translateY(5px); transition: opacity var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out); }
+.kpiDetail::after { content: ''; position: absolute; bottom: -5px; left: 22px; width: 8px; height: 8px; background: rgba(7, 16, 30, 0.97); border-right: 1px solid rgba(245, 190, 70, 0.28); border-bottom: 1px solid rgba(245, 190, 70, 0.28); transform: rotate(45deg); }
+.kpiCard:hover .kpiDetail { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) { .kpiCard, .kpiDetail { transition: none; } }
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.chartCard {
+  background: var(--color-navy-800);
+  border: 1px solid var(--color-surface-border);
+  padding: 20px;
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.chartTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.chartSub {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.rechartsContainer {
+  margin-top: 10px;
+}
+
+.donutLayout {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.donutLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.legendRowActive,
+.legendRow:hover {
+  background: rgba(56, 189, 248, 0.14);
+  border-color: rgba(56, 189, 248, 0.3);
+  transform: translateX(4px);
+}
+
+.colorDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.legendRowActive .colorDot,
+.legendRow:hover .colorDot {
+  transform: scale(1.3);
+  box-shadow: 0 0 8px currentColor;
+}
+
+.legendName {
+  color: var(--color-text-secondary);
+  flex: 1;
+}
+
+.legendValue {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  font-family: monospace;
+}
+
+/* Custom Bar & Pie Tooltips */
+.customTooltipBox {
+  background: rgba(10, 22, 40, 0.92);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7), 0 0 15px rgba(56, 189, 248, 0.15);
+  backdrop-filter: blur(12px);
+  color: #f8fafc;
+}
+
+.tooltipHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+}
+
+.tooltipDate {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #38bdf8;
+  font-family: monospace;
+}
+
+.tooltipTotal {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+.tooltipBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.75rem;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.safeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.riskDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 6px #ef4444;
+}
+
+.tooltipLabel {
+  color: #cbd5e1;
+  flex: 1;
+}
+
+.safeVal {
+  color: #34d399;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.riskVal {
+  color: #f87171;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.alertsCard,
+.callsCard {
+  background: var(--color-navy-800);
+  border: 1px solid var(--color-surface-border);
+  padding: 20px;
+}
+
+.cardHeaderWithLink {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cardSectionTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.alertCountBadge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.alertsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alertItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.4);
+}
+
+.highRiskAlertItem {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.suspiciousAlertItem {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.alertIconCol {
+  margin-top: 2px;
+}
+
+.dangerAlertIcon {
+  color: #ef4444;
+}
+
+.warnAlertIcon {
+  color: #f59e0b;
+}
+
+.alertMainCol {
+  flex: 1;
+}
+
+.alertMetaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.alertType {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #f1f5f9;
+  text-transform: uppercase;
+}
+
+.alertTime {
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.alertMessage {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+}
+
+.alertActionCol {
+  display: flex;
+  align-items: center;
+}
+
+.ackBtn {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(51, 65, 85, 0.8);
+  color: #38bdf8;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ackBtn:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.ackDoneTag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: #10b981;
+  font-weight: 600;
+}
+
+.callsTableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.table th {
+  padding: 10px;
+  color: #64748b;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  font-size: 0.75rem;
+}
+
+.tableRow {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tableRow:hover {
+  background: rgba(51, 65, 85, 0.4);
+}
+
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+  color: #f1f5f9;
+}
+
+.callerInfoCell {
+  display: flex;
+  flex-direction: column;
+}
+
+.callerName {
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.callerPhone {
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.langPill {
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.statusPill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.statusBlocked {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.statusCompleted {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.inspectBtn {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.inspectBtn:hover {
+  background: #0284c7;
+  color: #ffffff;
+}

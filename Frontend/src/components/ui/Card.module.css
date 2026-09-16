@@ -1,0 +1,108 @@
+/* ============================================================
+   Card Component Styles — AureliaX Design System
+   ============================================================ */
+
+.card {
+  background-color: rgba(4, 10, 20, 0.04);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(56, 189, 248, 0.14);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  transition:
+    box-shadow var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+  position: relative;
+}
+
+/* ---- Padding variants ---- */
+.padding-none  { padding: 0; }
+.padding-sm    { padding: var(--space-3); }
+.padding-md    { padding: var(--space-5); }
+.padding-lg    { padding: var(--space-8); }
+
+/* ---- Card variants ---- */
+
+/* Default — standard navy card */
+.default {
+  background-color: rgba(4, 10, 20, 0.04);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-color: rgba(56, 189, 248, 0.12);
+}
+
+/* Elevated — lighter bg, larger shadow */
+.elevated {
+  background-color: rgba(6, 14, 26, 0.08);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-color: rgba(56, 189, 248, 0.18);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Bordered — visible accent border */
+.bordered {
+  background-color: rgba(4, 10, 20, 0.04);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-color: rgba(56, 189, 248, 0.2);
+  border-width: 1px;
+}
+
+/* Risk: Safe */
+.risk-safe {
+  background-color: var(--color-safe-bg);
+  border-color: var(--color-safe-border);
+}
+
+/* Risk: Suspicious */
+.risk-suspicious {
+  background-color: var(--color-suspicious-bg);
+  border-color: var(--color-suspicious-border);
+}
+
+/* Risk: High Risk */
+.risk-high {
+  background-color: var(--color-highrisk-bg);
+  border-color: var(--color-highrisk-border);
+}
+
+/* ---- Hoverable ---- */
+.hoverable {
+  cursor: pointer;
+}
+.hoverable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-surface-border);
+}
+.hoverable:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Risk-safe hoverable */
+.risk-safe.hoverable:hover {
+  box-shadow: var(--shadow-safe-glow);
+  border-color: var(--color-safe-500);
+}
+
+/* Risk-suspicious hoverable */
+.risk-suspicious.hoverable:hover {
+  box-shadow: 0 0 20px rgba(217, 119, 6, 0.2);
+  border-color: var(--color-suspicious-500);
+}
+
+/* Risk-high hoverable */
+.risk-high.hoverable:hover {
+  box-shadow: var(--shadow-risk-glow);
+  border-color: var(--color-highrisk-500);
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}

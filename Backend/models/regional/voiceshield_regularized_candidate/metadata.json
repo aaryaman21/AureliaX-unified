@@ -1,0 +1,152 @@
+{
+  "project": "VoiceShield",
+  "label_mapping": {
+    "REAL": 0,
+    "FAKE": 1
+  },
+  "selected_classifier": "logistic_regression_C=0.1",
+  "candidate_validation_metrics": {
+    "selection": "Minimize human false positives without increasing fake false negatives; break ties by log loss.",
+    "training_rows": 2000,
+    "validation_rows": 200,
+    "baseline": {
+      "confusion_matrix": [
+        [
+          94,
+          6
+        ],
+        [
+          2,
+          98
+        ]
+      ],
+      "real_false_positive_rate": 0.06,
+      "fake_false_negative_rate": 0.02,
+      "log_loss": 0.11037193238735199
+    },
+    "candidates": {
+      "0.0001": {
+        "confusion_matrix": [
+          [
+            94,
+            6
+          ],
+          [
+            4,
+            96
+          ]
+        ],
+        "real_false_positive_rate": 0.06,
+        "fake_false_negative_rate": 0.04,
+        "log_loss": 0.24462436139583588
+      },
+      "0.001": {
+        "confusion_matrix": [
+          [
+            93,
+            7
+          ],
+          [
+            3,
+            97
+          ]
+        ],
+        "real_false_positive_rate": 0.07,
+        "fake_false_negative_rate": 0.03,
+        "log_loss": 0.13007362186908722
+      },
+      "0.01": {
+        "confusion_matrix": [
+          [
+            93,
+            7
+          ],
+          [
+            2,
+            98
+          ]
+        ],
+        "real_false_positive_rate": 0.07,
+        "fake_false_negative_rate": 0.02,
+        "log_loss": 0.10049521178007126
+      },
+      "0.1": {
+        "confusion_matrix": [
+          [
+            94,
+            6
+          ],
+          [
+            2,
+            98
+          ]
+        ],
+        "real_false_positive_rate": 0.06,
+        "fake_false_negative_rate": 0.02,
+        "log_loss": 0.10184488445520401
+      },
+      "1.0": {
+        "confusion_matrix": [
+          [
+            94,
+            6
+          ],
+          [
+            2,
+            98
+          ]
+        ],
+        "real_false_positive_rate": 0.06,
+        "fake_false_negative_rate": 0.02,
+        "log_loss": 0.1103719174861908
+      }
+    },
+    "selected_C": 0.1,
+    "selected_metrics": {
+      "confusion_matrix": [
+        [
+          94,
+          6
+        ],
+        [
+          2,
+          98
+        ]
+      ],
+      "real_false_positive_rate": 0.06,
+      "fake_false_negative_rate": 0.02,
+      "log_loss": 0.10184488445520401
+    },
+    "classifier_sha256": "82a67c4985889286ef99abea09adb5b06bd80a584e5645cc87f9fd53aee2a620"
+  },
+  "decision_thresholds": {
+    "real_if_fake_score_at_or_below": 0.45,
+    "fake_if_fake_score_at_or_above": 0.55,
+    "suspicious_between_thresholds": true
+  },
+  "feature_config": {
+    "feature_version": "wavlm-stats-last4-v2",
+    "model_id": "microsoft/wavlm-base",
+    "layers": [
+      -1,
+      -2,
+      -3,
+      -4
+    ],
+    "pooling": "attention-mask-aware mean+std statistics pooling",
+    "audio": {
+      "version": "audio-preprocess-v2",
+      "sample_rate": 16000,
+      "trim_top_db": 35.0,
+      "min_duration_seconds": 0.35,
+      "near_silent_rms": 0.0001,
+      "peak_normalize_to": 0.95
+    }
+  },
+  "training": {
+    "training_source_files": 1000,
+    "validation_source_files": 200,
+    "augment_copies": 1,
+    "custom_data_included": false
+  }
+}

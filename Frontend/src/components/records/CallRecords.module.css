@@ -1,0 +1,196 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.headerCard {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  padding: 20px 24px;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.pageTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.pageSub {
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.filterGrid {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.searchWrapper {
+  flex: 1;
+}
+
+.selectGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selectLabel {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.selectInput {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  color: #f1f5f9;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.tableCard {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  padding: 20px;
+}
+
+.tableHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.recordsCount {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.table th {
+  padding: 12px 14px;
+  color: #64748b;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  font-size: 0.78rem;
+}
+
+.tableRow {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tableRow:hover {
+  background: rgba(51, 65, 85, 0.4);
+}
+
+.table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+  color: #f1f5f9;
+}
+
+.callIdCell {
+  font-family: monospace;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+.callerCell {
+  display: flex;
+  flex-direction: column;
+}
+
+.callerName {
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.callerPhone {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.timeCell {
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+.langBadge {
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.sourceBadge {
+  background: rgba(148, 163, 184, 0.1);
+  color: #cbd5e1;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
+
+.statusBadge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.statusBlocked {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.statusCompleted {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.inspectBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.inspectBtn:hover {
+  background: #0284c7;
+  color: #ffffff;
+}

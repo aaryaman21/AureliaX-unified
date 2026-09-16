@@ -1,0 +1,345 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: #030814;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  opacity: 1;
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #f1f5f9;
+}
+
+.fadeOut {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Background Cyber Grid */
+.gridBackground {
+  position: absolute;
+  inset: -50px;
+  background-image: 
+    linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridMove 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes gridMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(40px); }
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 30%, #020610 90%);
+  pointer-events: none;
+}
+
+/* HUD Container */
+.hudContainer {
+  position: relative;
+  width: 520px;
+  max-width: 92vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+}
+
+/* Outer Concentric Rotating HUD Rings */
+.ringOuter {
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(56, 189, 248, 0.25);
+  border-top-color: rgba(56, 189, 248, 0.8);
+  border-bottom-color: rgba(56, 189, 248, 0.8);
+  animation: spinClockwise 12s linear infinite;
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.1);
+  pointer-events: none;
+}
+
+.ringMiddle {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-left-color: rgba(37, 99, 235, 0.6);
+  border-right-color: rgba(37, 99, 235, 0.6);
+  animation: spinCounterClockwise 8s linear infinite;
+  pointer-events: none;
+}
+
+.ringInner {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  border: 1px dotted rgba(6, 182, 212, 0.5);
+  animation: spinClockwise 5s linear infinite;
+  pointer-events: none;
+}
+
+.scanBeam {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(56, 189, 248, 0.15), transparent 60deg);
+  animation: spinClockwise 3s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes spinClockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spinCounterClockwise {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Central Core Reactor */
+.coreReactor {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(14, 116, 144, 0.4) 0%, rgba(3, 8, 20, 0.9) 70%);
+  border: 2px solid #38bdf8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.5), inset 0 0 15px rgba(56, 189, 248, 0.4);
+  margin-bottom: 2rem;
+  z-index: 2;
+}
+
+.corePulse {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, 0.6);
+  animation: pulseScale 1.8s ease-in-out infinite;
+}
+
+@keyframes pulseScale {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.12); opacity: 0.3; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.shieldIcon {
+  color: #38bdf8;
+  filter: drop-shadow(0 0 10px #38bdf8);
+}
+
+/* Brand Title Header */
+.brandTitleArea {
+  text-align: center;
+  z-index: 2;
+  margin-bottom: 1.75rem;
+}
+
+.badgeRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #38bdf8;
+  margin-bottom: 0.5rem;
+}
+
+.liveRadioIcon {
+  animation: blinkFast 1s ease-in-out infinite;
+}
+
+@keyframes blinkFast {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.techDivider {
+  color: rgba(56, 189, 248, 0.3);
+}
+
+.brandName {
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  margin: 0;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+}
+
+.brandX {
+  color: #38bdf8;
+  text-shadow: 0 0 25px #38bdf8, 0 0 40px #2563eb;
+}
+
+.subTitle {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: #94a3b8;
+  margin: 0.25rem 0 0 0;
+  font-weight: 500;
+}
+
+/* Diagnostics Output Box */
+.diagnosticsBox {
+  width: 100%;
+  background: rgba(10, 22, 40, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(56, 189, 248, 0.05);
+  backdrop-filter: blur(10px);
+  z-index: 2;
+}
+
+.diagHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #38bdf8;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-mono, monospace);
+}
+
+.diagIcon {
+  color: #38bdf8;
+}
+
+.diagPercentage {
+  margin-left: auto;
+  font-size: 0.875rem;
+  color: #67e8f9;
+}
+
+.logTextWrapper {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.logText {
+  margin: 0;
+  font-size: 0.75rem;
+  font-family: var(--font-mono, monospace);
+  color: #e2e8f0;
+  letter-spacing: 0.03em;
+}
+
+.logPrompt {
+  color: #38bdf8;
+  font-weight: bold;
+}
+
+/* Progress Track */
+.progressTrack {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: rgba(30, 58, 138, 0.4);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 40%, #38bdf8 100%);
+  border-radius: 3px;
+  transition: width 0.08s linear;
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+.progressGlow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: #ffffff;
+  box-shadow: 0 0 15px 5px #38bdf8;
+  transform: translateX(-50%);
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Telemetry Row */
+.telemetryRow {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.625rem;
+  font-size: 0.6875rem;
+  color: #64748b;
+  font-family: var(--font-mono, monospace);
+}
+
+.telemetryItem {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.telemetryItem svg {
+  color: #38bdf8;
+}
+
+/* Decorative Corner Reticles */
+.cornerReticle {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: rgba(56, 189, 248, 0.4);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.topLeft {
+  top: 24px;
+  left: 24px;
+  border-width: 2px 0 0 2px;
+}
+
+.topRight {
+  top: 24px;
+  right: 24px;
+  border-width: 2px 2px 0 0;
+}
+
+.bottomLeft {
+  bottom: 24px;
+  left: 24px;
+  border-width: 0 0 2px 2px;
+}
+
+.bottomRight {
+  bottom: 24px;
+  right: 24px;
+  border-width: 0 2px 2px 0;
+}

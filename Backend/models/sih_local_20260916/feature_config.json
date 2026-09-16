@@ -1,0 +1,19 @@
+{
+  "feature_version": "wavlm-stats-last4-v2",
+  "model_id": "microsoft/wavlm-base",
+  "layers": [
+    -1,
+    -2,
+    -3,
+    -4
+  ],
+  "pooling": "attention-mask-aware mean+std statistics pooling",
+  "audio": {
+    "version": "audio-preprocess-v3-quality-check",
+    "sample_rate": 16000,
+    "trim_top_db": 35.0,
+    "min_duration_seconds": 0.75,
+    "near_silent_rms": 0.0001,
+    "peak_normalize_to": 0.95
+  }
+}

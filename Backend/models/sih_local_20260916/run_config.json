@@ -1,0 +1,11 @@
+{
+  "policy": "sih-local-v1-center-2s-last4-stats",
+  "workspace": "C:\\SIH",
+  "manifest_sha256": "aae3a7595ef96a8548785a5cae229bc6c180df94297e9d4e26fd2163ab9c6926",
+  "seed": 42,
+  "window_seconds": 2,
+  "selection": "Minimum validation source/class-balanced log loss; no test selection",
+  "calibration": "Three-fold training-only grouped out-of-fold sigmoid calibration",
+  "threshold_policy": "Validation maximum source false-positive / false-negative tails, with abstention",
+  "benchmark_split_policy": "Rebuilt leaking local file splits by source conversation, seed 42; candidate-specific holdouts"
+}

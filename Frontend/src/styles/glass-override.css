@@ -1,0 +1,222 @@
+/* ============================================================
+   AureliaX — High-Transparency Blue Tinted Glass Override Layer
+   Removes heavy blur and lowers card background opacity so the
+   rotating neural brain structure is completely visible in fine
+   detail behind all UI panels, while charts retain full contrast.
+   ============================================================ */
+
+/* ---- Page-level base ---- */
+body {
+  background-color: #020810 !important;
+}
+
+.app-layout,
+.app-content,
+.page-content {
+  background: transparent !important;
+}
+
+/* ---- Recharts container transparency ---- */
+.recharts-wrapper,
+.recharts-surface {
+  background: transparent !important;
+}
+
+/* ---- Override CSS variables for high-transparency blue glass ---- */
+:root {
+  --color-navy-800: rgba(6, 18, 38, 0.18);
+  --color-navy-850: rgba(10, 26, 52, 0.22);
+  --color-navy-900: rgba(4, 12, 28, 0.25);
+  --color-surface-raised: rgba(6, 18, 38, 0.18);
+  --color-surface-border: rgba(56, 189, 248, 0.25);
+}
+
+/* ---- All front sections, cards, headers & sidebars: High Transparency Blue Tinted ---- */
+header,
+aside,
+[class*="card"],
+[class*="Card"],
+[class*="sidebar"],
+[class*="header"],
+[class*="kpiCard"],
+[class*="heroCard"],
+[class*="chartCard"],
+[class*="alertsCard"],
+[class*="callsCard"],
+[class*="footerCard"],
+[class*="statBox"] {
+  background-color: rgba(6, 18, 38, 0.18) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-color: rgba(56, 189, 248, 0.25) !important;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.25), inset 0 0 0 1px rgba(56, 189, 248, 0.08) !important;
+}
+
+/* ---- Inner items (alert items, table rows) high transparency ---- */
+[class*="alertItem"] {
+  background: rgba(15, 23, 42, 0.25) !important;
+}
+
+/* ====================================================================
+   TEXT COLOR ENFORCEMENT
+   Ensures all text remains crisp and readable in dark mode over the
+   transparent card + rotating sphere background at all times.
+   ==================================================================== */
+
+/* Dark mode (default): bright readable text */
+:root,
+[data-theme="dark"] {
+  --color-text-primary:   #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted:     #64748b;
+  --color-text-accent:    #60a5fa;
+}
+
+body,
+[data-theme="dark"] body {
+  color: #f1f5f9 !important;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #f1f5f9 !important;
+}
+
+/* Force all text inside cards / sidebar to be readable on dark overlay */
+header *,
+aside *,
+[class*="card"] *,
+[class*="Card"] *,
+[class*="sidebar"] *,
+[class*="heroCard"] *,
+[class*="kpiCard"] *,
+[class*="chartCard"] *,
+[class*="alertsCard"] *,
+[class*="callsCard"] *,
+[class*="footerCard"] * {
+  /* Let individual components choose their token colours — but un-dim anything
+     that was inheriting the washed-out index.css --text value */
+  color: inherit;
+}
+
+/* KPI values, hero title & secondary labels */
+[class*="kpiValue"],
+[class*="heroTitle"] {
+  color: #f1f5f9 !important;
+}
+
+[class*="kpiLabel"],
+[class*="kpiSub"],
+[class*="heroDesc"] {
+  color: #94a3b8 !important;
+}
+
+/* ---- Light mode overrides ---- */
+[data-theme="light"] {
+  --color-text-primary:   #031e38;
+  --color-text-secondary: #0c2d48;
+  --color-text-muted:     #1e40af;
+  --color-text-accent:    #0284c7;
+}
+
+[data-theme="light"] body {
+  color: #14263a !important;
+  background-color: #f3f6fa !important;
+  background-image: radial-gradient(circle at 78% 16%, rgba(255, 217, 133, 0.28), transparent 24%), radial-gradient(circle at 12% 88%, rgba(147, 197, 253, 0.25), transparent 30%) !important;
+}
+
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6 {
+  color: #14263a !important;
+}
+
+[data-theme="light"] header,
+[data-theme="light"] [class*="card"],
+[data-theme="light"] [class*="Card"],
+[data-theme="light"] [class*="sidebar"],
+[data-theme="light"] [class*="heroCard"],
+[data-theme="light"] [class*="kpiCard"],
+[data-theme="light"] [class*="chartCard"],
+[data-theme="light"] [class*="alertsCard"],
+[data-theme="light"] [class*="callsCard"],
+[data-theme="light"] [class*="footerCard"] {
+  background-color: rgba(255, 255, 255, 0.28) !important;
+  border-color: rgba(37, 99, 235, 0.18) !important;
+  box-shadow: 0 10px 26px rgba(31, 58, 89, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* A dark navigation rail anchors the otherwise airy workspace. */
+[data-theme="light"] aside,
+[data-theme="light"] [class*="sidebar"] {
+  background: linear-gradient(180deg, rgba(17, 37, 61, 0.96), rgba(8, 21, 37, 0.94)) !important;
+  border-color: rgba(245, 190, 70, 0.25) !important;
+  box-shadow: 8px 0 28px rgba(31, 58, 89, 0.12) !important;
+}
+
+[data-theme="light"] aside [class*="navItem"] { color: #aabbd0; }
+[data-theme="light"] aside [class*="navIcon"] { color: #7490ad; }
+[data-theme="light"] aside [class*="navItem"]:hover { color: #f8fbff; }
+[data-theme="light"] aside [class*="navItem"]:hover [class*="navIcon"],
+[data-theme="light"] aside [class*="active"] [class*="navIcon"] { color: #75b7ff; }
+[data-theme="light"] aside [class*="footerTitle"] { color: #e9f4ff; }
+
+/* Daylight mode has its own layered hierarchy rather than a blue wash. */
+[data-theme="light"] header {
+  background: rgba(250, 252, 255, 0.52) !important;
+  border-bottom-color: rgba(37, 99, 235, 0.2) !important;
+  box-shadow: 0 8px 24px rgba(31, 58, 89, 0.07) !important;
+}
+
+[data-theme="light"] [class*="heroCard"] {
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.36), rgba(233, 242, 255, 0.2)) !important;
+  border-color: rgba(37, 99, 235, 0.25) !important;
+  box-shadow: 0 16px 34px rgba(31, 58, 89, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-theme="light"] [class*="chartCard"],
+[data-theme="light"] [class*="alertsCard"],
+[data-theme="light"] [class*="callsCard"] {
+  background: rgba(255, 255, 255, 0.24) !important;
+}
+
+[data-theme="light"] [class*="systemStatus"] {
+  background: rgba(20, 38, 58, 0.88) !important;
+  border-color: rgba(245, 190, 70, 0.35) !important;
+  color: #dbeafe !important;
+}
+
+[data-theme="light"] [class*="statusCadence"] { color: #a9bdd2 !important; }
+
+/* Contextual KPI notes use the same daylight glass language as the cards. */
+[data-theme="light"] [class*="kpiDetail"] {
+  background: rgba(248, 251, 255, 0.94) !important;
+  color: #29445f !important;
+  border-color: rgba(37, 99, 235, 0.3) !important;
+  box-shadow: 0 14px 28px rgba(31, 58, 89, 0.16) !important;
+}
+
+[data-theme="light"] [class*="kpiDetail"]::after {
+  background: rgba(248, 251, 255, 0.94) !important;
+  border-color: rgba(37, 99, 235, 0.3) !important;
+}
+
+[data-theme="light"] [class*="kpiValue"],
+[data-theme="light"] [class*="heroTitle"] {
+  color: #14263a !important;
+}
+
+[data-theme="light"] [class*="kpiLabel"],
+[data-theme="light"] [class*="kpiSub"],
+[data-theme="light"] [class*="heroDesc"] {
+  color: #40566e !important;
+}
+
+[data-theme="light"] body {
+  background-color: #f3f6fa !important;
+}

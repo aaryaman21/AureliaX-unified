@@ -1,0 +1,127 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.headerCard {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  padding: 20px 24px;
+}
+
+.pageTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.pageSub {
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.chartCard {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  padding: 20px;
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.chartTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.chartSub {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.twoColGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.signalCard,
+.statSummaryCard {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  padding: 20px;
+}
+
+.signalList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.signalRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.signalLabelRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.sigName {
+  color: #cbd5e1;
+}
+
+.sigVal {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.sigBarBg {
+  height: 6px;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.sigBarFill {
+  height: 100%;
+  background: #0284c7;
+  border-radius: 9999px;
+}
+
+.statItems {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.statBox {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.4);
+  padding: 14px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.statVal {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.statLbl {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}

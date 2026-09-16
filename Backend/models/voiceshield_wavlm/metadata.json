@@ -1,0 +1,37 @@
+{
+  "project": "VoiceShield-Unified-Calibrated",
+  "dataset_name": "Combined ASVspoof2021_LA_Telephony + Studio Deepfake Benchmark",
+  "sample_counts": {
+    "total": 480,
+    "real": 240,
+    "fake": 240
+  },
+  "selected_classifier": "logistic_regression_regularized",
+  "regularization_C": 0.005,
+  "temperature": 1.0,
+  "logit_bias": -2.85,
+  "decision_thresholds": {
+    "real_if_fake_score_at_or_below": 0.4,
+    "fake_if_fake_score_at_or_above": 0.55,
+    "suspicious_between_thresholds": true
+  },
+  "feature_config": {
+    "feature_version": "wavlm-stats-last4-v2",
+    "model_id": "microsoft/wavlm-base",
+    "layers": [
+      -1,
+      -2,
+      -3,
+      -4
+    ],
+    "pooling": "attention-mask-aware mean+std statistics pooling",
+    "audio": {
+      "version": "audio-preprocess-v2",
+      "sample_rate": 16000,
+      "trim_top_db": 35.0,
+      "min_duration_seconds": 0.35,
+      "near_silent_rms": 0.0001,
+      "peak_normalize_to": 0.95
+    }
+  }
+}

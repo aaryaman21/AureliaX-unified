@@ -1,0 +1,848 @@
+{
+  "scanned_files": 31828,
+  "audio_paths": 31359,
+  "unique_labeled": 15880,
+  "duplicate_copies": 15436,
+  "by_source_split_class": {
+    "benchmark/training/0": 97,
+    "benchmark/training/1": 79,
+    "benchmark/validation/0": 7,
+    "benchmark/validation/1": 17,
+    "benchmark/testing/0": 16,
+    "benchmark/testing/1": 19,
+    "fleurs/testing/0": 2100,
+    "fleurs/training/0": 9799,
+    "fleurs/validation/0": 2100,
+    "legacy/testing/1": 100,
+    "legacy/training/1": 500,
+    "legacy/training/0": 500,
+    "legacy/validation/0": 100,
+    "legacy/validation/1": 100,
+    "legacy/testing/0": 100,
+    "mscadd/validation/0": 1,
+    "mscadd/training/1": 4,
+    "mscadd/training/0": 2,
+    "mscadd/validation/1": 1,
+    "telephony/testing/1": 18,
+    "telephony/training/0": 83,
+    "telephony/training/1": 84,
+    "telephony/validation/1": 17,
+    "telephony/testing/0": 18,
+    "telephony/validation/0": 18
+  },
+  "excluded": [
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (10).ogg",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (11).ogg",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (12).ogg",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (13).mp4",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (14).ogg",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (15).ogg",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (2).m4a",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (20).mp4",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (22).mp4",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (23).mp4",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (3).m4a",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (30).ogg",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (4).m4a",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (5).m4a",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (6).mp4",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (7).ogg",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (8).ogg",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording (9).ogg",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording.m4a",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_10.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_11.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_12.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_13.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_14.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_15.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_20.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_22.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_23.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_30.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_4.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_4_trimmed.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_5.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_6.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_7.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_8.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\Recording_9.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\ai_test.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\ai_test_2.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\test_audio\\human_test.wav",
+      "reason": "Protected personal/challenge audio; not training data"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Backend\\VoiceShield-AI\\dataset\\human\\sindhi\\train_1fbbd35247954184ffb0f78b.wav",
+      "reason": "Less than 0.75 seconds"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\human\\sindhi\\train_1fbbd35247954184ffb0f78b.wav",
+      "reason": "Less than 0.75 seconds"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\telephony_calls\\training\\real\\LA_E_1021567.flac",
+      "reason": "Less than 0.75 seconds"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\telephony_calls\\validation\\fake\\LA_E_1342973.flac",
+      "reason": "Less than 0.75 seconds"
+    }
+  ],
+  "corrupt": [],
+  "group_split_moves": [
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\el_0024_part_001.flac",
+      "group": "benchmark:el_0024",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\hu_0003_c_part_005.flac",
+      "group": "benchmark:hu_0003",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0010_part_016.flac",
+      "group": "benchmark:yt_0010",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0007_p2_part_033.flac",
+      "group": "benchmark:yt_0007",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\el_0007_c_part_002.flac",
+      "group": "benchmark:el_0007",
+      "original_split": "validation",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\lv_0004_part_007.flac",
+      "group": "benchmark:lv_0004",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0007_part_010.flac",
+      "group": "benchmark:yt_0007",
+      "original_split": "validation",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\el_0004_c_part_002.flac",
+      "group": "benchmark:el_0004",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\lv_0001_part_006.flac",
+      "group": "benchmark:lv_0001",
+      "original_split": "validation",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\po_0030_c_part_013.flac",
+      "group": "benchmark:po_0030",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0006_part_012.flac",
+      "group": "benchmark:yt_0006",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0006_p2_part_048.flac",
+      "group": "benchmark:yt_0006",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\po_0029_part_008.flac",
+      "group": "benchmark:po_0029",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0012_part_045.flac",
+      "group": "benchmark:yt_0012",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0011_part_073.flac",
+      "group": "benchmark:yt_0011",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\hu_0001_part_002.flac",
+      "group": "benchmark:hu_0001",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0011_part_065.flac",
+      "group": "benchmark:yt_0011",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\lv_0004_c_part_029.flac",
+      "group": "benchmark:lv_0004",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0000_part_164.flac",
+      "group": "benchmark:yt_0000",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0008_part_170.flac",
+      "group": "benchmark:yt_0008",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\sp_0009_part_001.flac",
+      "group": "benchmark:sp_0009",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0006_p2_part_045.flac",
+      "group": "benchmark:yt_0006",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0013_part_020.flac",
+      "group": "benchmark:yt_0013",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\lv_0002_c_part_017.flac",
+      "group": "benchmark:lv_0002",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0012_part_126.flac",
+      "group": "benchmark:yt_0012",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0009_part_202.flac",
+      "group": "benchmark:yt_0009",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\hu_0003_part_001.flac",
+      "group": "benchmark:hu_0003",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\lv_0004_c_part_023.flac",
+      "group": "benchmark:lv_0004",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0006_p2_part_018.flac",
+      "group": "benchmark:yt_0006",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\el_0015_c_part_018.flac",
+      "group": "benchmark:el_0015",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\po_0030_c_part_011.flac",
+      "group": "benchmark:po_0030",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0010_part_050.flac",
+      "group": "benchmark:yt_0010",
+      "original_split": "testing",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\po_0001_part_005.flac",
+      "group": "benchmark:po_0001",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\po_0010_c_part_005.flac",
+      "group": "benchmark:po_0010",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0006_part_029.flac",
+      "group": "benchmark:yt_0006",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0006_p2_part_034.flac",
+      "group": "benchmark:yt_0006",
+      "original_split": "validation",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\lv_0001_part_017.flac",
+      "group": "benchmark:lv_0001",
+      "original_split": "validation",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0013_part_012.flac",
+      "group": "benchmark:yt_0013",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\hu_0007_part_001.flac",
+      "group": "benchmark:hu_0007",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\lv_0001_part_005.flac",
+      "group": "benchmark:lv_0001",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\el_0011_part_001.flac",
+      "group": "benchmark:el_0011",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\sp_0007_c_part_016.flac",
+      "group": "benchmark:sp_0007",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0006_p2_part_041.flac",
+      "group": "benchmark:yt_0006",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\hu_0007_part_002.flac",
+      "group": "benchmark:hu_0007",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\po_0024_part_001.flac",
+      "group": "benchmark:po_0024",
+      "original_split": "validation",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0008_part_142.flac",
+      "group": "benchmark:yt_0008",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0008_part_079.flac",
+      "group": "benchmark:yt_0008",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0007_part_025.flac",
+      "group": "benchmark:yt_0007",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0006_part_006.flac",
+      "group": "benchmark:yt_0006",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\sp_0007_part_008.flac",
+      "group": "benchmark:sp_0007",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\hu_0003_c_part_007.flac",
+      "group": "benchmark:hu_0003",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\lv_0006_part_005.flac",
+      "group": "benchmark:lv_0006",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0000_part_106.flac",
+      "group": "benchmark:yt_0000",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0000_part_082.flac",
+      "group": "benchmark:yt_0000",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\po_0004_part_006.flac",
+      "group": "benchmark:po_0004",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0013_part_042.flac",
+      "group": "benchmark:yt_0013",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\po_0005_c_part_011.flac",
+      "group": "benchmark:po_0005",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\el_0010_part_003.flac",
+      "group": "benchmark:el_0010",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\lv_0005_part_014.flac",
+      "group": "benchmark:lv_0005",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0011_part_144.flac",
+      "group": "benchmark:yt_0011",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\po_0005_c_part_004.flac",
+      "group": "benchmark:po_0005",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\el_0012_part_004.flac",
+      "group": "benchmark:el_0012",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0012_part_032.flac",
+      "group": "benchmark:yt_0012",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0009_part_027.flac",
+      "group": "benchmark:yt_0009",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\hu_0005_part_005.flac",
+      "group": "benchmark:hu_0005",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0011_part_041.flac",
+      "group": "benchmark:yt_0011",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0007_part_032.flac",
+      "group": "benchmark:yt_0007",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\po_0031_part_004.flac",
+      "group": "benchmark:po_0031",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\hg_0006_part_003.flac",
+      "group": "benchmark:hg_0006",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0009_part_164.flac",
+      "group": "benchmark:yt_0009",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0013_part_097.flac",
+      "group": "benchmark:yt_0013",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\lv_0006_part_019.flac",
+      "group": "benchmark:lv_0006",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\sp_0004_part_016.flac",
+      "group": "benchmark:sp_0004",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\sp_0004_part_003.flac",
+      "group": "benchmark:sp_0004",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0010_part_034.flac",
+      "group": "benchmark:yt_0010",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\hu_0006_part_002.flac",
+      "group": "benchmark:hu_0006",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\hu_0003_c_part_003.flac",
+      "group": "benchmark:hu_0003",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\sp_0005_c_part_020.flac",
+      "group": "benchmark:sp_0005",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0010_part_047.flac",
+      "group": "benchmark:yt_0010",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\el_0015_c_part_015.flac",
+      "group": "benchmark:el_0015",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0011_p2_part_178.flac",
+      "group": "benchmark:yt_0011",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0004_part_027.flac",
+      "group": "benchmark:yt_0004",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\el_0022_c_part_002.flac",
+      "group": "benchmark:el_0022",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0008_part_154.flac",
+      "group": "benchmark:yt_0008",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\lv_0006_part_008.flac",
+      "group": "benchmark:lv_0006",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\sp_0007_part_009.flac",
+      "group": "benchmark:sp_0007",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0006_p2_part_052.flac",
+      "group": "benchmark:yt_0006",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\sp_0003_c_part_021.flac",
+      "group": "benchmark:sp_0003",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0004_part_040.flac",
+      "group": "benchmark:yt_0004",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\po_0026_part_001.flac",
+      "group": "benchmark:po_0026",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\el_0001_c_part_002.flac",
+      "group": "benchmark:el_0001",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\sp_0002_c_part_008.flac",
+      "group": "benchmark:sp_0002",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\real\\yt_0003_part_008.flac",
+      "group": "benchmark:yt_0003",
+      "original_split": "training",
+      "split": "validation"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\po_0010_c_part_004.flac",
+      "group": "benchmark:po_0010",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\hu_0001_part_001.flac",
+      "group": "benchmark:hu_0001",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\sp_0003_c_part_015.flac",
+      "group": "benchmark:sp_0003",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0009_part_045.flac",
+      "group": "benchmark:yt_0009",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\hu_0005_c_part_018.flac",
+      "group": "benchmark:hu_0005",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\fake\\sp_0003_part_011.flac",
+      "group": "benchmark:sp_0003",
+      "original_split": "validation",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\lv_0002_c_part_021.flac",
+      "group": "benchmark:lv_0002",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0011_part_069.flac",
+      "group": "benchmark:yt_0011",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\real\\yt_0004_part_028.flac",
+      "group": "benchmark:yt_0004",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\testing\\fake\\el_0012_c_part_009.flac",
+      "group": "benchmark:el_0012",
+      "original_split": "testing",
+      "split": "training"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\training\\fake\\lv_0002_part_008.flac",
+      "group": "benchmark:lv_0002",
+      "original_split": "training",
+      "split": "testing"
+    },
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX-unified\\Backend\\dataset\\downloaded_benchmark\\validation\\real\\yt_0008_part_126.flac",
+      "group": "benchmark:yt_0008",
+      "original_split": "validation",
+      "split": "training"
+    }
+  ],
+  "archives": [
+    {
+      "path": "C:\\SIH\\AureliaX-updated\\AureliaX\\Frontend.zip",
+      "audio_members": []
+    }
+  ],
+  "limitation": "Known conversation groups and exact decoded duplicates kept together. Missing speaker IDs prevent a speaker-disjoint claim.",
+  "benchmark_split_policy": "Rebuilt leaking local file splits by source conversation, seed 42; candidate-specific holdouts"
+}

@@ -1,0 +1,208 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.headerCard {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  padding: 20px 24px;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.pageTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.pageSub {
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.searchRow {
+  max-width: 480px;
+}
+
+.contactsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.contactCard {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatarCircle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7, #6366f1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.headerInfo {
+  flex: 1;
+}
+
+.contactName {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.orgText {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.trustBadge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.trustTrusted {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.trustNeutral {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.trustBlocked {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(51, 65, 85, 0.4);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+}
+
+.detailRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+.detailIcon {
+  color: #64748b;
+}
+
+.voiceProfileBox {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.4);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.vpHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.micIcon {
+  color: #38bdf8;
+}
+
+.vpTitle {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.vpStatus {
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-left: auto;
+}
+
+.vpEnrolled {
+  color: #10b981;
+}
+
+.vpPending {
+  color: #f59e0b;
+}
+
+.vpSub {
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.totalCallsText {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.enrollBtn {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}

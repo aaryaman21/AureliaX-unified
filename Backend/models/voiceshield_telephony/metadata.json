@@ -1,0 +1,32 @@
+{
+  "dataset_name": "ASVspoof2021_LA_Telephony",
+  "codec_environment": "Simulated and real-world telephone networks (PSTN, VoIP, G.711, AMR)",
+  "accuracy_scores": {
+    "train_accuracy": 1.0,
+    "validation_accuracy": 0.7778,
+    "test_accuracy": 0.8611,
+    "test_balanced_accuracy": 0.8611,
+    "test_roc_auc": 0.8889,
+    "test_equal_error_rate_eer": 0.1111,
+    "test_log_loss": 0.5347,
+    "macro_f1": 0.861,
+    "weighted_f1": 0.861,
+    "human_call_class": {
+      "precision": 0.8824,
+      "recall": 0.8333,
+      "f1_score": 0.8571
+    },
+    "ai_call_class": {
+      "precision": 0.8421,
+      "recall": 0.8889,
+      "f1_score": 0.8649
+    }
+  },
+  "confusion_matrix": {
+    "true_human_calls_tn": 15,
+    "false_ai_calls_fp": 3,
+    "false_human_calls_fn": 2,
+    "true_ai_calls_tp": 16
+  },
+  "total_elapsed_seconds": 31.99
+}

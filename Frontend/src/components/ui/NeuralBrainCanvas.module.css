@@ -1,0 +1,14 @@
+.brainCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+/* The light theme needs a little less intensity, while retaining the bronze core. */
+:global([data-theme='light']) .brainCanvas {
+  opacity: 0.58;
+}

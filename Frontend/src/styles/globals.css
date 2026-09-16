@@ -1,0 +1,197 @@
+/* ============================================================
+   AureliaX Global Styles
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import './tokens.css';
+@import './animations.css';
+@import './glass-override.css';
+
+/* --- Reset --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+  background-color: #020810;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background-color var(--duration-moderate) var(--ease-out), color var(--duration-moderate) var(--ease-out);
+}
+
+/* --- Focus States --- */
+:focus-visible {
+  outline: 2px solid var(--color-blue-400);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-navy-900);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-navy-600);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-navy-500);
+}
+
+/* --- Selection --- */
+::selection {
+  background-color: rgba(37, 99, 235, 0.3);
+  color: var(--color-text-primary);
+}
+
+/* --- Links --- */
+a {
+  color: var(--color-blue-400);
+  text-decoration: none;
+  transition: color var(--duration-normal) var(--ease-out);
+}
+a:hover {
+  color: var(--color-blue-300);
+}
+
+/* --- Headings --- */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+}
+
+/* --- Code --- */
+code, pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+/* --- Images --- */
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* --- Buttons Reset --- */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* --- Input Reset --- */
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* --- App Layout Shell --- */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- App Layout (authenticated) --- */
+.app-layout {
+  display: block;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.app-content {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left var(--duration-moderate) var(--ease-out);
+}
+
+.app-content.sidebar-collapsed {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+.page-content {
+  flex: 1;
+  padding: var(--space-6);
+  margin-top: var(--header-height);
+  width: 100%;
+  max-width: 100%;
+}
+
+/* --- Risk Color Utilities --- */
+.risk-safe { color: var(--color-safe-500); }
+.risk-suspicious { color: var(--color-suspicious-500); }
+.risk-high { color: var(--color-highrisk-500); }
+
+.bg-risk-safe { background-color: var(--color-safe-bg); border-color: var(--color-safe-border); }
+.bg-risk-suspicious { background-color: var(--color-suspicious-bg); border-color: var(--color-suspicious-border); }
+.bg-risk-high { background-color: var(--color-highrisk-bg); border-color: var(--color-highrisk-border); }
+
+/* --- Utility Classes --- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.text-muted { color: var(--color-text-muted); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-accent { color: var(--color-text-accent); }
+
+.font-mono { font-family: var(--font-mono); }
+
+/* --- Dividers --- */
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-surface-border-subtle);
+  margin: var(--space-6) 0;
+}
+
+/* --- Responsive breakpoints --- */
+@media (max-width: 1024px) {
+  .app-content {
+    margin-left: var(--sidebar-collapsed-width);
+  }
+  .page-content {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    margin-left: 0;
+    margin-bottom: 64px; /* bottom nav height */
+  }
+  .page-content {
+    padding: var(--space-4) var(--space-3);
+  }
+}

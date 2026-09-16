@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+Frontend/node_modules/
+Backend/venv/
+Backend/.venv/
+venv/
+.venv/
+env/
+
+# Build artifacts
+Frontend/dist/
+dist/
+dist-ssr/
+
+# Python cache & compiled files
+__pycache__/
+Backend/**/__pycache__/
+*.py[cod]
+*.pyo
+
+# Cache & temporary files
+Backend/cache/
+Backend/.cache/
+Backend/models/**/.cache/
+Backend/models/**/.eval_results/
+Backend/models/sih_local_*/features/
+Backend/models/sih_local_*/progress_*.json
+Backend/models/sih_local_*/feature_errors_*.json
+Backend/models/sih_local_*/extraction_complete_*.json
+*.partial.npy
+*.log
+
+# Large local datasets and audio recordings
+Backend/dataset/
+Backend/custom_data/
+Backend/test_audio/
+*.sqlite
+*.sqlite3
+
+# Environment and secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

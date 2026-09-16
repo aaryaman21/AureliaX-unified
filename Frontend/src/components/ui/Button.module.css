@@ -1,0 +1,213 @@
+/* ============================================================
+   Button Component Styles — AureliaX Design System
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    opacity var(--duration-normal) var(--ease-out);
+  position: relative;
+  outline: none;
+  user-select: none;
+}
+
+/* ---- Sizes ---- */
+.sm {
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-3);
+  height: 28px;
+  border-radius: var(--radius-sm);
+}
+
+.md {
+  font-size: var(--text-sm);
+  padding: var(--space-2) var(--space-4);
+  height: 36px;
+}
+
+.lg {
+  font-size: var(--text-base);
+  padding: var(--space-3) var(--space-6);
+  height: 44px;
+  border-radius: var(--radius-lg);
+}
+
+/* ---- Full Width ---- */
+.fullWidth {
+  width: 100%;
+}
+
+/* ---- Variants ---- */
+
+/* Primary — Electric Blue */
+.primary {
+  background-color: var(--color-blue-500);
+  border-color: var(--color-blue-500);
+  color: #ffffff;
+}
+.primary:hover:not(:disabled):not(.loading) {
+  background-color: var(--color-blue-400);
+  border-color: var(--color-blue-400);
+  box-shadow: var(--shadow-blue-glow);
+  transform: translateY(-1px);
+}
+.primary:active:not(:disabled):not(.loading) {
+  background-color: var(--color-blue-600);
+  border-color: var(--color-blue-600);
+  transform: translateY(0);
+  box-shadow: none;
+}
+.primary:focus-visible {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+/* Secondary — Navy border */
+.secondary {
+  background-color: transparent;
+  border-color: var(--color-surface-border);
+  color: var(--color-text-primary);
+  background-color: var(--color-navy-800);
+}
+.secondary:hover:not(:disabled):not(.loading) {
+  background-color: var(--color-navy-700);
+  border-color: var(--color-blue-400);
+  color: var(--color-blue-300);
+  transform: translateY(-1px);
+}
+.secondary:active:not(:disabled):not(.loading) {
+  background-color: var(--color-navy-800);
+  transform: translateY(0);
+}
+.secondary:focus-visible {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Ghost — Transparent */
+.ghost {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--color-text-secondary);
+}
+.ghost:hover:not(:disabled):not(.loading) {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-primary);
+}
+.ghost:active:not(:disabled):not(.loading) {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+.ghost:focus-visible {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* Danger — Red */
+.danger {
+  background-color: var(--color-highrisk-600);
+  border-color: var(--color-highrisk-600);
+  color: #ffffff;
+}
+.danger:hover:not(:disabled):not(.loading) {
+  background-color: var(--color-highrisk-500);
+  border-color: var(--color-highrisk-500);
+  box-shadow: var(--shadow-risk-glow);
+  transform: translateY(-1px);
+}
+.danger:active:not(:disabled):not(.loading) {
+  background-color: var(--color-highrisk-700);
+  transform: translateY(0);
+  box-shadow: none;
+}
+.danger:focus-visible {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.4);
+}
+
+/* Safe — Green */
+.safe {
+  background-color: var(--color-safe-600);
+  border-color: var(--color-safe-600);
+  color: #ffffff;
+}
+.safe:hover:not(:disabled):not(.loading) {
+  background-color: var(--color-safe-500);
+  border-color: var(--color-safe-500);
+  box-shadow: var(--shadow-safe-glow);
+  transform: translateY(-1px);
+}
+.safe:active:not(:disabled):not(.loading) {
+  background-color: var(--color-safe-700);
+  transform: translateY(0);
+  box-shadow: none;
+}
+.safe:focus-visible {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.4);
+}
+
+/* ---- Disabled & Loading ---- */
+.btn:disabled,
+.btn.loading {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ---- Spinner ---- */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: btn-spin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+
+.sm .spinner {
+  width: 12px;
+  height: 12px;
+}
+
+.lg .spinner {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Icon wrappers ---- */
+.iconLeft,
+.iconRight {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+  .spinner {
+    animation: none;
+    border-top-color: currentColor;
+    opacity: 0.6;
+  }
+}

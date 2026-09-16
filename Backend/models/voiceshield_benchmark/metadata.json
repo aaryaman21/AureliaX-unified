@@ -1,0 +1,43 @@
+{
+  "dataset_name": "garystafford/deepfake-audio-detection",
+  "selected_classifier": "logistic_regression",
+  "sample_counts": {
+    "training_real": 84,
+    "training_fake": 84,
+    "validation_real": 18,
+    "validation_fake": 18,
+    "testing_real": 18,
+    "testing_fake": 18,
+    "total_samples": 240
+  },
+  "accuracy_scores": {
+    "train_accuracy": 1.0,
+    "validation_accuracy": 0.9722,
+    "test_accuracy": 1.0,
+    "test_balanced_accuracy": 1.0,
+    "test_roc_auc": 1.0,
+    "test_equal_error_rate_eer": 0.0,
+    "test_log_loss": 0.0041,
+    "macro_f1": 1.0,
+    "weighted_f1": 1.0,
+    "real_class": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0
+    },
+    "fake_class": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0
+    }
+  },
+  "confusion_matrix": {
+    "true_real_tn": 18,
+    "false_fake_fp": 0,
+    "false_real_fn": 0,
+    "true_fake_tp": 18
+  },
+  "feature_extractor": "microsoft/wavlm-base",
+  "feature_dim": 6144,
+  "total_elapsed_seconds": 121.16
+}

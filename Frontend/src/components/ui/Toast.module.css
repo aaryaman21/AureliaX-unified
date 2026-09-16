@@ -1,0 +1,180 @@
+/* ============================================================
+   Toast Component Styles — AureliaX Design System
+   ============================================================ */
+
+/* ---- Container (fixed top-right) ---- */
+.toastContainer {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 360px;
+  max-width: calc(100vw - var(--space-8));
+  pointer-events: none;
+}
+
+/* ---- Individual toast ---- */
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  background-color: var(--color-navy-750);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-3) var(--space-4);
+  pointer-events: all;
+  animation: toast-in var(--duration-moderate) var(--ease-spring) forwards;
+  overflow: hidden;
+  position: relative;
+}
+
+.toast.dismissing {
+  animation: toast-out var(--duration-normal) var(--ease-out) forwards;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + var(--space-4)));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    max-height: 120px;
+    margin-bottom: 0;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(calc(100% + var(--space-4)));
+    max-height: 0;
+    margin-bottom: calc(var(--space-2) * -1);
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+/* ---- Toast variants ---- */
+.success {
+  border-left: 3px solid var(--color-safe-500);
+  border-left-color: var(--color-safe-500);
+}
+
+.error {
+  border-left: 3px solid var(--color-highrisk-500);
+}
+
+.warning {
+  border-left: 3px solid var(--color-suspicious-500);
+}
+
+.info {
+  border-left: 3px solid var(--color-blue-400);
+}
+
+/* ---- Icon ---- */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.success .icon { color: var(--color-safe-500); }
+.error   .icon { color: var(--color-highrisk-500); }
+.warning .icon { color: var(--color-suspicious-500); }
+.info    .icon { color: var(--color-blue-400); }
+
+/* ---- Content ---- */
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.toastTitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 2px 0;
+  line-height: var(--leading-snug);
+}
+
+.toastMessage {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: var(--leading-normal);
+}
+
+/* ---- Progress bar ---- */
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background-color: currentColor;
+  opacity: 0.4;
+  animation: toast-progress linear forwards;
+  transform-origin: left;
+}
+
+.success .progressBar { color: var(--color-safe-500); }
+.error   .progressBar { color: var(--color-highrisk-500); }
+.warning .progressBar { color: var(--color-suspicious-500); }
+.info    .progressBar { color: var(--color-blue-400); }
+
+@keyframes toast-progress {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
+
+/* ---- Close button ---- */
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: 
+    background-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
+  margin-top: -2px;
+}
+
+.closeButton:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-primary);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--color-blue-400);
+  outline-offset: 1px;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .toast, .toast.dismissing, .progressBar {
+    animation: none;
+  }
+  .toast.dismissing {
+    display: none;
+  }
+}

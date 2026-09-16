@@ -1,0 +1,166 @@
+/* ============================================================
+   Modal Component Styles — AureliaX Design System
+   ============================================================ */
+
+/* ---- Backdrop overlay ---- */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(3, 8, 15, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  animation: backdrop-in var(--duration-normal) var(--ease-out) forwards;
+}
+
+.backdropClosing {
+  animation: backdrop-out var(--duration-normal) var(--ease-out) forwards;
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes backdrop-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ---- Modal panel ---- */
+.modal {
+  background-color: var(--color-navy-800);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - var(--space-8));
+  width: 100%;
+  animation: modal-in var(--duration-normal) var(--ease-spring) forwards;
+  outline: none;
+  overflow: hidden;
+}
+
+.modalClosing {
+  animation: modal-out var(--duration-normal) var(--ease-out) forwards;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modal-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96) translateY(4px);
+  }
+}
+
+/* ---- Sizes ---- */
+.sm { max-width: 400px; }
+.md { max-width: 560px; }
+.lg { max-width: 768px; }
+.xl { max-width: 1024px; }
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-surface-border-subtle);
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+}
+
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-primary);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--color-blue-400);
+  outline-offset: 1px;
+}
+
+/* ---- Body ---- */
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6);
+  /* Thin scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-navy-700) transparent;
+}
+
+.body::-webkit-scrollbar {
+  width: 4px;
+}
+.body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.body::-webkit-scrollbar-thumb {
+  background-color: var(--color-navy-700);
+  border-radius: var(--radius-full);
+}
+
+/* ---- Footer ---- */
+.footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-surface-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  background-color: var(--color-navy-850);
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .backdrop, .backdropClosing,
+  .modal, .modalClosing {
+    animation: none;
+  }
+}

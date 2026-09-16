@@ -1,0 +1,129 @@
+/* ============================================================
+   Badge Component Styles — AureliaX Design System
+   ============================================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  white-space: nowrap;
+  border: 1px solid transparent;
+  line-height: 1;
+}
+
+/* ---- Sizes ---- */
+.sm {
+  font-size: var(--text-xs);
+  padding: 2px var(--space-2);
+}
+
+.md {
+  font-size: var(--text-sm);
+  padding: var(--space-1) var(--space-3);
+}
+
+/* ---- Dot ---- */
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.sm .dot {
+  width: 6px;
+  height: 6px;
+}
+
+/* ---- Pulse animation for active state ---- */
+.pulse {
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* ---- Variants ---- */
+
+/* Safe */
+.safe {
+  background-color: var(--color-safe-bg);
+  border-color: var(--color-safe-border);
+  color: var(--color-safe-500);
+}
+.safe .dot {
+  background-color: var(--color-safe-500);
+}
+
+/* Suspicious */
+.suspicious {
+  background-color: var(--color-suspicious-bg);
+  border-color: var(--color-suspicious-border);
+  color: var(--color-suspicious-500);
+}
+.suspicious .dot {
+  background-color: var(--color-suspicious-500);
+}
+
+/* High Risk */
+.high-risk {
+  background-color: var(--color-highrisk-bg);
+  border-color: var(--color-highrisk-border);
+  color: var(--color-highrisk-500);
+}
+.high-risk .dot {
+  background-color: var(--color-highrisk-500);
+}
+
+/* Info */
+.info {
+  background-color: rgba(37, 99, 235, 0.12);
+  border-color: rgba(59, 130, 246, 0.25);
+  color: var(--color-blue-300);
+}
+.info .dot {
+  background-color: var(--color-blue-400);
+}
+
+/* Neutral */
+.neutral {
+  background-color: rgba(100, 116, 139, 0.12);
+  border-color: rgba(100, 116, 139, 0.25);
+  color: var(--color-text-secondary);
+}
+.neutral .dot {
+  background-color: var(--color-text-muted);
+}
+
+/* Language */
+.language {
+  background-color: rgba(37, 99, 235, 0.12);
+  border-color: rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+}
+.language .dot {
+  background-color: #38bdf8;
+}
+
+/* Active */
+.active {
+  background-color: rgba(6, 182, 212, 0.12);
+  border-color: rgba(34, 211, 238, 0.25);
+  color: var(--color-cyan-400);
+}
+.active .dot {
+  background-color: var(--color-cyan-400);
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+  }
+}

@@ -1,0 +1,12 @@
+joblib
+fastapi
+uvicorn
+python-multipart
+librosa
+numpy
+scikit-learn
+sounddevice
+torch
+transformers
+pyannote.audio
+imageio-ffmpeg
