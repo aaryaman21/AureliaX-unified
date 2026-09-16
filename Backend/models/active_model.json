@@ -1,0 +1,5 @@
+{
+  "model_directory": "sih_local_20260916",
+  "description": "Trained across all 15,880 unique local recordings in C:/SIH with source-balanced grouped OOF sigmoid calibration",
+  "trained_at": "2026-09-16"
+}

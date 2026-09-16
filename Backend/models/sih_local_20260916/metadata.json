@@ -1,0 +1,49 @@
+{
+  "project": "AureliaX SIH local retraining",
+  "label_mapping": {
+    "REAL": 0,
+    "FAKE": 1
+  },
+  "selected_classifier": "source-balanced-logistic-C=0.001-oof-sigmoid",
+  "feature_config": {
+    "feature_version": "wavlm-stats-last4-v2",
+    "model_id": "microsoft/wavlm-base",
+    "layers": [
+      -1,
+      -2,
+      -3,
+      -4
+    ],
+    "pooling": "attention-mask-aware mean+std statistics pooling",
+    "audio": {
+      "version": "audio-preprocess-v3-quality-check",
+      "sample_rate": 16000,
+      "trim_top_db": 35.0,
+      "min_duration_seconds": 0.75,
+      "near_silent_rms": 0.0001,
+      "peak_normalize_to": 0.95
+    }
+  },
+  "training_window_policy": "sih-local-v1-center-2s-last4-stats",
+  "decision_thresholds": {
+    "real_if_fake_score_at_or_below": 0.20976859331130981,
+    "fake_if_fake_score_at_or_above": 0.9949641227722168,
+    "suspicious_between_thresholds": true
+  },
+  "temperature": 1.0,
+  "logit_bias": 0.0,
+  "calibration": {
+    "method": "training-only grouped OOF sigmoid",
+    "slope": 0.833938822720688,
+    "intercept": 0.23246530929054682
+  },
+  "training": {
+    "training_source_files": 11148,
+    "validation_source_files": 2361,
+    "custom_data_included": false,
+    "augmentation_copies": 0
+  },
+  "manifest_sha256": "aae3a7595ef96a8548785a5cae229bc6c180df94297e9d4e26fd2163ab9c6926",
+  "classifier_sha256": "54004dfe82f17712a14a8ee3975ac2e0c249fba680829d93574363bf49efa2a1",
+  "warning": "Scores are not guarantees. Regional fake speech is absent; unknown speaker overlap remains possible. Benchmark source groups were held together; no test tuning."
+}

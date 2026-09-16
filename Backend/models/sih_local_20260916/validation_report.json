@@ -1,0 +1,1935 @@
+{
+  "candidates": {
+    "0.0001": {
+      "overall": {
+        "samples": 2361,
+        "confusion_matrix": [
+          [
+            2198,
+            28
+          ],
+          [
+            8,
+            127
+          ]
+        ],
+        "binary_accuracy": 0.9847522236340533,
+        "balanced_source_class_log_loss": 0.24886129594513057,
+        "human_called_fake_rate": 0.005840071877807727,
+        "fake_called_real_rate": 0.044444444444444446,
+        "abstention_rate": 0.023295213892418468,
+        "roc_auc": 0.9966789790689161
+      },
+      "by_source": {
+        "benchmark": {
+          "samples": 24,
+          "confusion_matrix": [
+            [
+              7,
+              0
+            ],
+            [
+              2,
+              15
+            ]
+          ],
+          "binary_accuracy": 0.9166666666666666,
+          "balanced_source_class_log_loss": 0.3059933648147315,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": 0.11764705882352941,
+          "abstention_rate": 0.125,
+          "roc_auc": 0.9831932773109244
+        },
+        "fleurs": {
+          "samples": 2100,
+          "confusion_matrix": [
+            [
+              2089,
+              11
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9947619047619047,
+          "balanced_source_class_log_loss": 0.05737577588459772,
+          "human_called_fake_rate": 0.0009523809523809524,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.015714285714285715,
+          "roc_auc": null
+        },
+        "legacy": {
+          "samples": 200,
+          "confusion_matrix": [
+            [
+              89,
+              11
+            ],
+            [
+              5,
+              95
+            ]
+          ],
+          "binary_accuracy": 0.92,
+          "balanced_source_class_log_loss": 0.23846662479380032,
+          "human_called_fake_rate": 0.07,
+          "fake_called_real_rate": 0.03,
+          "abstention_rate": 0.07,
+          "roc_auc": 0.9805
+        },
+        "mscadd": {
+          "samples": 2,
+          "confusion_matrix": [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.18874473636969924,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": 0.0,
+          "abstention_rate": 0.0,
+          "roc_auc": 1.0
+        },
+        "telephony": {
+          "samples": 35,
+          "confusion_matrix": [
+            [
+              12,
+              6
+            ],
+            [
+              1,
+              16
+            ]
+          ],
+          "binary_accuracy": 0.8,
+          "balanced_source_class_log_loss": 0.4912296270501185,
+          "human_called_fake_rate": 0.2222222222222222,
+          "fake_called_real_rate": 0.058823529411764705,
+          "abstention_rate": 0.14285714285714285,
+          "roc_auc": 0.8725490196078431
+        }
+      },
+      "fleurs_by_language": {
+        "assamese": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.022526354287692812,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "bengali": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.045092513948135696,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.013333333333333334,
+          "roc_auc": null
+        },
+        "english": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              144,
+              6
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.96,
+          "balanced_source_class_log_loss": 0.22820523837891718,
+          "human_called_fake_rate": 0.006666666666666667,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.09333333333333334,
+          "roc_auc": null
+        },
+        "gujarati": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.025216236199254734,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "hindi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.04525897303052868,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.006666666666666667,
+          "roc_auc": null
+        },
+        "kannada": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.031897796551565986,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "malayalam": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0115294645409449,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "marathi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.01809498796928286,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "odia": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.08496992532241468,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.02,
+          "roc_auc": null
+        },
+        "punjabi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              147,
+              3
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.98,
+          "balanced_source_class_log_loss": 0.10091566225125764,
+          "human_called_fake_rate": 0.006666666666666667,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.04,
+          "roc_auc": null
+        },
+        "sindhi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.021099649541759694,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.006666666666666667,
+          "roc_auc": null
+        },
+        "tamil": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.03630663866060786,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.006666666666666667,
+          "roc_auc": null
+        },
+        "telugu": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.06013350348356956,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.02666666666666667,
+          "roc_auc": null
+        },
+        "urdu": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.07201391821843572,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.006666666666666667,
+          "roc_auc": null
+        }
+      }
+    },
+    "0.001": {
+      "overall": {
+        "samples": 2361,
+        "confusion_matrix": [
+          [
+            2204,
+            22
+          ],
+          [
+            10,
+            125
+          ]
+        ],
+        "binary_accuracy": 0.9864464210080475,
+        "balanced_source_class_log_loss": 0.196826138963453,
+        "human_called_fake_rate": 0.004941599281221923,
+        "fake_called_real_rate": 0.05925925925925926,
+        "abstention_rate": 0.011012282930961457,
+        "roc_auc": 0.997301254533959
+      },
+      "by_source": {
+        "benchmark": {
+          "samples": 24,
+          "confusion_matrix": [
+            [
+              6,
+              1
+            ],
+            [
+              3,
+              14
+            ]
+          ],
+          "binary_accuracy": 0.8333333333333334,
+          "balanced_source_class_log_loss": 0.2778030500034097,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": 0.17647058823529413,
+          "abstention_rate": 0.08333333333333333,
+          "roc_auc": 0.9579831932773109
+        },
+        "fleurs": {
+          "samples": 2100,
+          "confusion_matrix": [
+            [
+              2091,
+              9
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9957142857142857,
+          "balanced_source_class_log_loss": 0.019576519444840266,
+          "human_called_fake_rate": 0.0004761904761904762,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.006666666666666667,
+          "roc_auc": null
+        },
+        "legacy": {
+          "samples": 200,
+          "confusion_matrix": [
+            [
+              93,
+              7
+            ],
+            [
+              6,
+              94
+            ]
+          ],
+          "binary_accuracy": 0.935,
+          "balanced_source_class_log_loss": 0.15893620163569055,
+          "human_called_fake_rate": 0.07,
+          "fake_called_real_rate": 0.04,
+          "abstention_rate": 0.035,
+          "roc_auc": 0.9863999999999999
+        },
+        "mscadd": {
+          "samples": 2,
+          "confusion_matrix": [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.10056637326488271,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": 0.0,
+          "abstention_rate": 0.0,
+          "roc_auc": 1.0
+        },
+        "telephony": {
+          "samples": 35,
+          "confusion_matrix": [
+            [
+              13,
+              5
+            ],
+            [
+              1,
+              16
+            ]
+          ],
+          "binary_accuracy": 0.8285714285714286,
+          "balanced_source_class_log_loss": 0.4699628688815412,
+          "human_called_fake_rate": 0.16666666666666666,
+          "fake_called_real_rate": 0.058823529411764705,
+          "abstention_rate": 0.08571428571428572,
+          "roc_auc": 0.8986928104575163
+        }
+      },
+      "fleurs_by_language": {
+        "assamese": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.004088953514301844,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "bengali": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.014164684890452008,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.006666666666666667,
+          "roc_auc": null
+        },
+        "english": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              146,
+              4
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9733333333333334,
+          "balanced_source_class_log_loss": 0.12166505669493442,
+          "human_called_fake_rate": 0.006666666666666667,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.04666666666666667,
+          "roc_auc": null
+        },
+        "gujarati": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.005874990777446574,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "hindi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.007717197369387918,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "kannada": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.004858073154891163,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "malayalam": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0009127275239530756,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "marathi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0013336692670897795,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "odia": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.01989859283156572,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.006666666666666667,
+          "roc_auc": null
+        },
+        "punjabi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.029430741429230998,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.013333333333333334,
+          "roc_auc": null
+        },
+        "sindhi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.005146221860678963,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "tamil": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.007266868965261703,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "telugu": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.02942129654256083,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.013333333333333334,
+          "roc_auc": null
+        },
+        "urdu": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.02229219740600873,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.006666666666666667,
+          "roc_auc": null
+        }
+      }
+    },
+    "0.01": {
+      "overall": {
+        "samples": 2361,
+        "confusion_matrix": [
+          [
+            2209,
+            17
+          ],
+          [
+            12,
+            123
+          ]
+        ],
+        "binary_accuracy": 0.987717069038543,
+        "balanced_source_class_log_loss": 0.20761155735887307,
+        "human_called_fake_rate": 0.005840071877807727,
+        "fake_called_real_rate": 0.06666666666666667,
+        "abstention_rate": 0.0033883947479881405,
+        "roc_auc": 0.9976173837809058
+      },
+      "by_source": {
+        "benchmark": {
+          "samples": 24,
+          "confusion_matrix": [
+            [
+              6,
+              1
+            ],
+            [
+              4,
+              13
+            ]
+          ],
+          "binary_accuracy": 0.7916666666666666,
+          "balanced_source_class_log_loss": 0.3252774665801048,
+          "human_called_fake_rate": 0.14285714285714285,
+          "fake_called_real_rate": 0.17647058823529413,
+          "abstention_rate": 0.041666666666666664,
+          "roc_auc": 0.9663865546218487
+        },
+        "fleurs": {
+          "samples": 2100,
+          "confusion_matrix": [
+            [
+              2096,
+              4
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9980952380952381,
+          "balanced_source_class_log_loss": 0.007790120192776009,
+          "human_called_fake_rate": 0.0009523809523809524,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0014285714285714286,
+          "roc_auc": null
+        },
+        "legacy": {
+          "samples": 200,
+          "confusion_matrix": [
+            [
+              92,
+              8
+            ],
+            [
+              6,
+              94
+            ]
+          ],
+          "binary_accuracy": 0.93,
+          "balanced_source_class_log_loss": 0.15046878516470344,
+          "human_called_fake_rate": 0.07,
+          "fake_called_real_rate": 0.05,
+          "abstention_rate": 0.01,
+          "roc_auc": 0.9879
+        },
+        "mscadd": {
+          "samples": 2,
+          "confusion_matrix": [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.05416312075794849,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": 0.0,
+          "abstention_rate": 0.0,
+          "roc_auc": 1.0
+        },
+        "telephony": {
+          "samples": 35,
+          "confusion_matrix": [
+            [
+              14,
+              4
+            ],
+            [
+              2,
+              15
+            ]
+          ],
+          "binary_accuracy": 0.8285714285714286,
+          "balanced_source_class_log_loss": 0.5223478631583467,
+          "human_called_fake_rate": 0.16666666666666666,
+          "fake_called_real_rate": 0.058823529411764705,
+          "abstention_rate": 0.05714285714285714,
+          "roc_auc": 0.8986928104575164
+        }
+      },
+      "fleurs_by_language": {
+        "assamese": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0006827622937824648,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "bengali": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.004385115156234558,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "english": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              147,
+              3
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.98,
+          "balanced_source_class_log_loss": 0.06583662975966377,
+          "human_called_fake_rate": 0.006666666666666667,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.02,
+          "roc_auc": null
+        },
+        "gujarati": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0015712038363879326,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "hindi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0009728732592120082,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "kannada": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0009606737135087921,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "malayalam": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 5.9226364541018484e-05,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "marathi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 9.574992157278454e-05,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "odia": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0034469762434305076,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "punjabi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.00525361372257881,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "sindhi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0022313336245724713,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "tamil": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0010215830795540152,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "telugu": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.016887287403004433,
+          "human_called_fake_rate": 0.006666666666666667,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "urdu": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.005656654320820564,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        }
+      }
+    },
+    "0.1": {
+      "overall": {
+        "samples": 2361,
+        "confusion_matrix": [
+          [
+            2211,
+            15
+          ],
+          [
+            14,
+            121
+          ]
+        ],
+        "binary_accuracy": 0.987717069038543,
+        "balanced_source_class_log_loss": 0.25304615589422097,
+        "human_called_fake_rate": 0.005390835579514825,
+        "fake_called_real_rate": 0.07407407407407407,
+        "abstention_rate": 0.005082592121982211,
+        "roc_auc": 0.9972979268576753
+      },
+      "by_source": {
+        "benchmark": {
+          "samples": 24,
+          "confusion_matrix": [
+            [
+              6,
+              1
+            ],
+            [
+              4,
+              13
+            ]
+          ],
+          "binary_accuracy": 0.7916666666666666,
+          "balanced_source_class_log_loss": 0.47571520475591017,
+          "human_called_fake_rate": 0.14285714285714285,
+          "fake_called_real_rate": 0.23529411764705882,
+          "abstention_rate": 0.0,
+          "roc_auc": 0.9327731092436975
+        },
+        "fleurs": {
+          "samples": 2100,
+          "confusion_matrix": [
+            [
+              2097,
+              3
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9985714285714286,
+          "balanced_source_class_log_loss": 0.006486820830359113,
+          "human_called_fake_rate": 0.0004761904761904762,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.002380952380952381,
+          "roc_auc": null
+        },
+        "legacy": {
+          "samples": 200,
+          "confusion_matrix": [
+            [
+              92,
+              8
+            ],
+            [
+              6,
+              94
+            ]
+          ],
+          "binary_accuracy": 0.93,
+          "balanced_source_class_log_loss": 0.15596782484158198,
+          "human_called_fake_rate": 0.07,
+          "fake_called_real_rate": 0.05,
+          "abstention_rate": 0.02,
+          "roc_auc": 0.9895
+        },
+        "mscadd": {
+          "samples": 2,
+          "confusion_matrix": [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.013210987381171435,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": 0.0,
+          "abstention_rate": 0.0,
+          "roc_auc": 1.0
+        },
+        "telephony": {
+          "samples": 35,
+          "confusion_matrix": [
+            [
+              15,
+              3
+            ],
+            [
+              4,
+              13
+            ]
+          ],
+          "binary_accuracy": 0.8,
+          "balanced_source_class_log_loss": 0.637197257805512,
+          "human_called_fake_rate": 0.16666666666666666,
+          "fake_called_real_rate": 0.058823529411764705,
+          "abstention_rate": 0.08571428571428572,
+          "roc_auc": 0.9052287581699346
+        }
+      },
+      "fleurs_by_language": {
+        "assamese": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0010664379676355413,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "bengali": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.003838132277380737,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "english": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.0388857807172324,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.02,
+          "roc_auc": null
+        },
+        "gujarati": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0006494221959614303,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "hindi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.001395873546288821,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "kannada": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.010698677704376488,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.006666666666666667,
+          "roc_auc": null
+        },
+        "malayalam": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 2.770390678307422e-05,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "marathi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.00011764469146148334,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "odia": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0008895288392325066,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "punjabi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0020801745235118573,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "sindhi": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.00494199700470053,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.006666666666666667,
+          "roc_auc": null
+        },
+        "tamil": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.00048088540146314546,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "telugu": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              149,
+              1
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 0.9933333333333333,
+          "balanced_source_class_log_loss": 0.02349383268974312,
+          "human_called_fake_rate": 0.006666666666666667,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        },
+        "urdu": {
+          "samples": 150,
+          "confusion_matrix": [
+            [
+              150,
+              0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "binary_accuracy": 1.0,
+          "balanced_source_class_log_loss": 0.0022494001592564435,
+          "human_called_fake_rate": 0.0,
+          "fake_called_real_rate": null,
+          "abstention_rate": 0.0,
+          "roc_auc": null
+        }
+      }
+    }
+  },
+  "selected_C": 0.001,
+  "calibrated": {
+    "overall": {
+      "samples": 2361,
+      "confusion_matrix": [
+        [
+          2199,
+          27
+        ],
+        [
+          8,
+          127
+        ]
+      ],
+      "binary_accuracy": 0.9851757729775519,
+      "balanced_source_class_log_loss": 0.20133704775991657,
+      "human_called_fake_rate": 0.0004492362982929021,
+      "fake_called_real_rate": 0.007407407407407408,
+      "abstention_rate": 0.09911054637865312,
+      "roc_auc": 0.997301254533959
+    },
+    "by_source": {
+      "benchmark": {
+        "samples": 24,
+        "confusion_matrix": [
+          [
+            6,
+            1
+          ],
+          [
+            3,
+            14
+          ]
+        ],
+        "binary_accuracy": 0.8333333333333334,
+        "balanced_source_class_log_loss": 0.28126427772584045,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": 0.058823529411764705,
+        "abstention_rate": 0.7083333333333334,
+        "roc_auc": 0.9579831932773109
+      },
+      "fleurs": {
+        "samples": 2100,
+        "confusion_matrix": [
+          [
+            2089,
+            11
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 0.9947619047619047,
+        "balanced_source_class_log_loss": 0.031706839084197774,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.03428571428571429,
+        "roc_auc": null
+      },
+      "legacy": {
+        "samples": 200,
+        "confusion_matrix": [
+          [
+            90,
+            10
+          ],
+          [
+            4,
+            96
+          ]
+        ],
+        "binary_accuracy": 0.93,
+        "balanced_source_class_log_loss": 0.1744129583074369,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": 0.0,
+        "abstention_rate": 0.58,
+        "roc_auc": 0.9863999999999999
+      },
+      "mscadd": {
+        "samples": 2,
+        "confusion_matrix": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "binary_accuracy": 1.0,
+        "balanced_source_class_log_loss": 0.10312424262519926,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": 0.0,
+        "abstention_rate": 0.5,
+        "roc_auc": 1.0
+      },
+      "telephony": {
+        "samples": 35,
+        "confusion_matrix": [
+          [
+            13,
+            5
+          ],
+          [
+            1,
+            16
+          ]
+        ],
+        "binary_accuracy": 0.8285714285714286,
+        "balanced_source_class_log_loss": 0.47819863880445784,
+        "human_called_fake_rate": 0.05555555555555555,
+        "fake_called_real_rate": 0.0,
+        "abstention_rate": 0.8,
+        "roc_auc": 0.8986928104575163
+      }
+    },
+    "fleurs_by_language": {
+      "assamese": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            150,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 1.0,
+        "balanced_source_class_log_loss": 0.009247618145774747,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.0,
+        "roc_auc": null
+      },
+      "bengali": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            149,
+            1
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 0.9933333333333333,
+        "balanced_source_class_log_loss": 0.022874829759724283,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.02666666666666667,
+        "roc_auc": null
+      },
+      "english": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            145,
+            5
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 0.9666666666666667,
+        "balanced_source_class_log_loss": 0.17529522592570476,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.22666666666666666,
+        "roc_auc": null
+      },
+      "gujarati": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            150,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 1.0,
+        "balanced_source_class_log_loss": 0.011922876727476439,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.013333333333333334,
+        "roc_auc": null
+      },
+      "hindi": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            150,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 1.0,
+        "balanced_source_class_log_loss": 0.016755442981508772,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.006666666666666667,
+        "roc_auc": null
+      },
+      "kannada": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            150,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 1.0,
+        "balanced_source_class_log_loss": 0.011709430318369508,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.0,
+        "roc_auc": null
+      },
+      "malayalam": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            150,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 1.0,
+        "balanced_source_class_log_loss": 0.0027116111059558535,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.0,
+        "roc_auc": null
+      },
+      "marathi": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            150,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 1.0,
+        "balanced_source_class_log_loss": 0.004192011742467609,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.0,
+        "roc_auc": null
+      },
+      "odia": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            149,
+            1
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 0.9933333333333333,
+        "balanced_source_class_log_loss": 0.03527225872215543,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.02666666666666667,
+        "roc_auc": null
+      },
+      "punjabi": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            149,
+            1
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 0.9933333333333333,
+        "balanced_source_class_log_loss": 0.04725513210032659,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.06,
+        "roc_auc": null
+      },
+      "sindhi": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            150,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 1.0,
+        "balanced_source_class_log_loss": 0.009260714067532282,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.006666666666666667,
+        "roc_auc": null
+      },
+      "tamil": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            150,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 1.0,
+        "balanced_source_class_log_loss": 0.014358319085776543,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.006666666666666667,
+        "roc_auc": null
+      },
+      "telugu": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            148,
+            2
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 0.9866666666666667,
+        "balanced_source_class_log_loss": 0.04470684048440944,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.06,
+        "roc_auc": null
+      },
+      "urdu": {
+        "samples": 150,
+        "confusion_matrix": [
+          [
+            149,
+            1
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "binary_accuracy": 0.9933333333333333,
+        "balanced_source_class_log_loss": 0.03833343601158655,
+        "human_called_fake_rate": 0.0,
+        "fake_called_real_rate": null,
+        "abstention_rate": 0.04666666666666667,
+        "roc_auc": null
+      }
+    }
+  }
+}

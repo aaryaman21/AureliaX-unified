@@ -38,9 +38,9 @@ class LocalTrainingTests(unittest.TestCase):
     def test_same_pcm_across_lossless_containers_has_same_hash(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp)
-            y=np.sin(np.arange(16000)*.1)*.2
-            sf.write(root/'a.wav',y,16000,subtype='PCM_16')
-            sf.write(root/'a.flac',y,16000,subtype='PCM_16')
+            y=(np.sin(np.arange(16000)*.1)*6000).astype(np.int16)
+            sf.write(root/'a.wav',y,16000)
+            sf.write(root/'a.flac',y,16000)
             self.assertEqual(decoded_hash(root/'a.wav')[0],decoded_hash(root/'a.flac')[0])
 
     def test_center_window_is_deterministic_and_label_independent(self):
