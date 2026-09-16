@@ -42,6 +42,8 @@ Backend/storage/audio_logs/*
 # Environment and secrets
 .env
 .env.*
+!.env.example
+!Backend/.env.example
 *.pem
 *.key
 
