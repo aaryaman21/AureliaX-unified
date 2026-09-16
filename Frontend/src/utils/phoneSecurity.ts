@@ -134,16 +134,6 @@ export function validateEmail(email: string): { isValid: boolean; error?: string
   return { isValid: true };
 }
 
-/**
- * Generates a standard 6-digit numeric OTP.
- */
-export function generateNumericOTP(length = 6): string {
-  let otp = '';
-  for (let i = 0; i < length; i++) {
-    otp += Math.floor(Math.random() * 10).toString();
-  }
-  return otp;
-}
 
 /**
  * Generates a one-time 6-digit security authorization challenge code.

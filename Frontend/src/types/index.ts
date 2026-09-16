@@ -200,8 +200,6 @@ export interface Contact {
   authorizedAt?: string;
   authorizedBy?: string;
   securityClearance?: 'HIGH' | 'STANDARD' | 'RESTRICTED';
-  phoneVerified?: boolean;
-  emailVerified?: boolean;
 }
 
 // --- Analytics Metric ---
