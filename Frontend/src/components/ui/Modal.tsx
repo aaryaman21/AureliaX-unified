@@ -41,6 +41,9 @@ export const Modal: React.FC<ModalProps> = ({
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const wasOpenRef = useRef(false);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -48,7 +51,7 @@ export const Modal: React.FC<ModalProps> = ({
 
       if (e.key === 'Escape') {
         e.preventDefault();
-        onClose();
+        onCloseRef.current();
         return;
       }
 
@@ -74,42 +77,55 @@ export const Modal: React.FC<ModalProps> = ({
         }
       }
     },
-    [isOpen, onClose]
+    [isOpen]
   );
 
   useEffect(() => {
     if (isOpen) {
-      previousFocusRef.current = document.activeElement as HTMLElement;
       document.body.style.overflow = 'hidden';
 
-      requestAnimationFrame(() => {
-        if (modalRef.current) {
-          const focusable = modalRef.current.querySelector<HTMLElement>(
-            FOCUSABLE_SELECTORS
+      // Only perform initial auto-focus when transitioning from closed to open
+      if (!wasOpenRef.current) {
+        wasOpenRef.current = true;
+        previousFocusRef.current = document.activeElement as HTMLElement;
+
+        requestAnimationFrame(() => {
+          if (!modalRef.current) return;
+          // If focus is already inside the modal, do not disrupt it
+          if (modalRef.current.contains(document.activeElement)) return;
+
+          // Prefer focusing the first input or textarea inside modal body; fallback to first focusable
+          const firstInput = modalRef.current.querySelector<HTMLElement>(
+            'input:not([disabled]), textarea:not([disabled]), select:not([disabled])'
           );
-          if (focusable) {
-            focusable.focus();
-          } else {
-            modalRef.current.focus();
-          }
-        }
-      });
+          const firstFocusable = modalRef.current.querySelector<HTMLElement>(FOCUSABLE_SELECTORS);
+          const target = firstInput || firstFocusable || modalRef.current;
+          target?.focus();
+        });
+      }
 
       document.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+      };
     } else {
       document.body.style.overflow = '';
-      document.removeEventListener('keydown', handleKeyDown);
-
-      if (previousFocusRef.current) {
-        previousFocusRef.current.focus();
+      if (wasOpenRef.current) {
+        wasOpenRef.current = false;
+        if (previousFocusRef.current) {
+          previousFocusRef.current.focus();
+        }
       }
     }
+  }, [isOpen, handleKeyDown]);
 
+  // Clean up overflow if unmounted while open
+  useEffect(() => {
     return () => {
       document.body.style.overflow = '';
-      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, handleKeyDown]);
+  }, []);
 
   if (!isOpen) return null;
 

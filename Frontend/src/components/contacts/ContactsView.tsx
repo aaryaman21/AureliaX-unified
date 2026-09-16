@@ -26,6 +26,10 @@ export const ContactsView: React.FC = () => {
   const [newContactEmail, setNewContactEmail] = useState('');
   const [newContactOrg, setNewContactOrg] = useState('');
 
+  const handleCloseModal = React.useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
   useEffect(() => {
     try {
       localStorage.setItem(CONTACTS_STORAGE_KEY, JSON.stringify(contacts));
@@ -207,7 +211,7 @@ export const ContactsView: React.FC = () => {
       )}
 
       {/* Add Contact Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Register New Contact">
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="Register New Contact">
         <form onSubmit={handleCreateContact} className={styles.modalForm}>
           <Input
             label="Full Name"
