@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -7,11 +7,30 @@ import {
   YAxis,
   Tooltip,
 } from 'recharts';
-import { MOCK_ANALYTICS, SIGNAL_DISTRIBUTION } from '../../services/mockData';
+import type { Call } from '../../types';
+import { compute7DayTrend, computeSignalDistribution } from '../../services/analyticsUtils';
 import { Card } from '../ui/Card';
 import styles from './AnalyticsView.module.css';
 
-export const AnalyticsView: React.FC = () => {
+interface AnalyticsViewProps {
+  calls?: Call[];
+}
+
+export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ calls = [] }) => {
+  const trendData = useMemo(() => compute7DayTrend(calls), [calls]);
+  const signalData = useMemo(() => computeSignalDistribution(calls), [calls]);
+
+  const uniqueLanguagesCount = useMemo(() => {
+    const langs = new Set(
+      calls
+        .map((c) => c.language || c.analysis?.detectedLanguage)
+        .filter((l) => l && l !== 'Unknown')
+    );
+    return Math.max(langs.size, calls.length > 0 ? 1 : 0);
+  }, [calls]);
+
+  const highRiskCount = calls.filter((c) => c.riskLevel === 'HIGH_RISK').length;
+
   return (
     <div className={styles.container}>
       {/* Header */}
@@ -19,7 +38,7 @@ export const AnalyticsView: React.FC = () => {
         <div>
           <h2 className={styles.pageTitle}>Voice Integrity Intelligence & Analytics</h2>
           <p className={styles.pageSub}>
-            Deep insight into synthetic vocoder detection rates, signal contributions, and cross-language risk patterns
+            Real-time insight into synthetic vocoder detection rates, neural signal contributions, and cross-language risk patterns across {calls.length} analyzed audio record{calls.length === 1 ? '' : 's'}.
           </p>
         </div>
       </Card>
@@ -31,9 +50,9 @@ export const AnalyticsView: React.FC = () => {
           <span className={styles.chartSub}>Total Analyzed vs Synthetic Detections</span>
         </div>
         <ResponsiveContainer width="100%" height={260}>
-          <AreaChart data={MOCK_ANALYTICS}>
+          <AreaChart data={trendData}>
             <XAxis dataKey="date" stroke="#64748b" fontSize={12} />
-            <YAxis stroke="#64748b" fontSize={12} />
+            <YAxis stroke="#64748b" fontSize={12} allowDecimals={false} />
             <Tooltip
               contentStyle={{
                 background: '#0f172a',
@@ -45,7 +64,7 @@ export const AnalyticsView: React.FC = () => {
             <Area
               type="monotone"
               dataKey="callsAnalyzed"
-              name="Total Calls"
+              name="Total Evaluated"
               stroke="#38bdf8"
               fill="rgba(56, 189, 248, 0.15)"
             />
@@ -64,16 +83,20 @@ export const AnalyticsView: React.FC = () => {
       <div className={styles.twoColGrid}>
         <Card className={styles.signalCard}>
           <h3 className={styles.chartTitle}>Top Neural Threat Signal Contributions</h3>
-          <span className={styles.chartSub}>Primary factors triggering high-risk alerts</span>
+          <span className={styles.chartSub}>
+            {highRiskCount > 0
+              ? `Derived from ${highRiskCount} intercepted synthetic voice clone attack${highRiskCount === 1 ? '' : 's'}`
+              : 'Calibrated acoustic and vocoder detection factors'}
+          </span>
           <div className={styles.signalList}>
-            {SIGNAL_DISTRIBUTION.map((sig) => (
+            {signalData.map((sig) => (
               <div key={sig.signal} className={styles.signalRow}>
                 <div className={styles.signalLabelRow}>
                   <span className={styles.sigName}>{sig.signal}</span>
                   <span className={styles.sigVal}>{sig.contribution}%</span>
                 </div>
                 <div className={styles.sigBarBg}>
-                  <div className={styles.sigBarFill} style={{ width: `${sig.contribution}%` }} />
+                  <div className={styles.sigBarFill} style={{ width: `${Math.max(sig.contribution, 2)}%` }} />
                 </div>
               </div>
             ))}
@@ -88,12 +111,16 @@ export const AnalyticsView: React.FC = () => {
               <span className={styles.statLbl}>Zero-shot Vocoder Detection Precision</span>
             </div>
             <div className={styles.statBox}>
-              <span className={styles.statVal}>120ms</span>
-              <span className={styles.statLbl}>Average Real-time Inference Latency</span>
+              <span className={styles.statVal}>{calls.length > 0 ? `${calls.length} Tested` : '0 Ready'}</span>
+              <span className={styles.statLbl}>Total Voice Streams Verified</span>
             </div>
             <div className={styles.statBox}>
-              <span className={styles.statVal}>9 Languages</span>
-              <span className={styles.statLbl}>Hindi, Punjabi, Gujarati, Tamil + Global</span>
+              <span className={styles.statVal}>
+                {uniqueLanguagesCount > 0 ? `${uniqueLanguagesCount} Active` : '9 Supported'}
+              </span>
+              <span className={styles.statLbl}>
+                {uniqueLanguagesCount > 0 ? 'Unique Languages Evaluated' : 'Hindi, English, Punjabi, Tamil + Global'}
+              </span>
             </div>
           </div>
         </Card>
@@ -101,3 +128,4 @@ export const AnalyticsView: React.FC = () => {
     </div>
   );
 };
+

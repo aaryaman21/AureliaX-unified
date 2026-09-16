@@ -157,7 +157,7 @@ function AppContent() {
 
             {activeTab === 'contacts' && <ContactsView />}
 
-            {activeTab === 'analytics' && <AnalyticsView />}
+            {activeTab === 'analytics' && <AnalyticsView calls={calls} />}
 
             {activeTab === 'settings' && <SettingsView />}
           </main>

@@ -214,7 +214,7 @@ export interface AnalyticsMetric {
 }
 
 export interface LanguageDistribution {
-  language: SupportedLanguage;
+  language: SupportedLanguage | string;
   count: number;
   percentage: number;
 }

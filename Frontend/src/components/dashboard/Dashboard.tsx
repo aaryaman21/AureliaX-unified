@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Activity,
   ShieldAlert,
@@ -23,7 +23,11 @@ import {
   Sector,
 } from 'recharts';
 import type { Call, RiskEvent } from '../../types';
-import { LANGUAGE_DISTRIBUTION, MOCK_ANALYTICS } from '../../services/mockData';
+import {
+  compute7DayTrend,
+  computeLanguageDistribution,
+  computeAuthenticityRate,
+} from '../../services/analyticsUtils';
 import { RiskBadge } from '../ui/RiskBadge';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
@@ -71,7 +75,7 @@ const renderActiveSector = (props: any) => {
         {payload.language}
       </text>
       <text x={cx} y={cy + 10} textAnchor="middle" fill="#38bdf8" fontSize={13} fontWeight={600}>
-        {`${(percent * 100).toFixed(1)}% (${value} calls)`}
+        {`${(percent * 100).toFixed(1)}% (${value} call${value === 1 ? '' : 's'})`}
       </text>
 
       {/* Exploded / Popped Out Sector Slice */}
@@ -144,6 +148,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
   onAcknowledgeAlert,
 }) => {
   const [activePieIndex, setActivePieIndex] = useState<number | undefined>(undefined);
+  const trendData = useMemo(() => compute7DayTrend(calls), [calls]);
+  const languageData = useMemo(() => computeLanguageDistribution(calls), [calls]);
+  const authStats = useMemo(() => computeAuthenticityRate(calls), [calls]);
+
   const highRiskCount = calls.filter((c) => c.riskLevel === 'HIGH_RISK').length;
   const suspiciousCount = calls.filter((c) => c.riskLevel === 'SUSPICIOUS').length;
 
@@ -181,15 +189,19 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <Activity size={22} />
           </div>
           <div className={styles.kpiContent}>
-            <span className={styles.kpiLabel}>Active Calls Monitored</span>
+            <span className={styles.kpiLabel}>Total Calls Evaluated</span>
             <div className={styles.kpiValueRow}>
-              <span className={styles.kpiValue}>12</span>
+              <span className={styles.kpiValue}>{calls.length}</span>
               <span className={styles.kpiTrend}>
-                <TrendingUp size={12} /> +15%
+                <TrendingUp size={12} /> Real-time
               </span>
             </div>
-            <span className={styles.kpiSub}>Streams evaluated per second</span>
-            <span className={styles.kpiDetail}>Live throughput is 15% above the last monitoring window.</span>
+            <span className={styles.kpiSub}>Live audio logs in session</span>
+            <span className={styles.kpiDetail}>
+              {calls.length > 0
+                ? `${calls.length} total stream${calls.length === 1 ? '' : 's'} verified and stored.`
+                : 'No audio checks executed yet. Upload audio to begin.'}
+            </span>
           </div>
         </Card>
 
@@ -202,7 +214,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <div className={styles.kpiValueRow}>
               <span className={styles.kpiValue}>{highRiskCount}</span>
               <span className={styles.kpiTrendDanger}>
-                <ShieldAlert size={12} /> High Alert
+                <ShieldAlert size={12} /> {highRiskCount > 0 ? 'High Alert' : 'Clean'}
               </span>
             </div>
             <span className={styles.kpiSub}>Blocked synthetic voice attacks</span>
@@ -218,7 +230,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <span className={styles.kpiLabel}>Suspicious Calls Flagged</span>
             <div className={styles.kpiValueRow}>
               <span className={styles.kpiValue}>{suspiciousCount}</span>
-              <span className={styles.kpiTrendWarn}>Pending Check</span>
+              <span className={styles.kpiTrendWarn}>{suspiciousCount > 0 ? 'Pending Check' : 'Clear'}</span>
             </div>
             <span className={styles.kpiSub}>Requires out-of-band verification</span>
             <span className={styles.kpiDetail}>Prioritize these calls before their verification window closes.</span>
@@ -232,11 +244,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <div className={styles.kpiContent}>
             <span className={styles.kpiLabel}>Voice Authenticity Rate</span>
             <div className={styles.kpiValueRow}>
-              <span className={styles.kpiValue}>96.4%</span>
+              <span className={styles.kpiValue}>{authStats.rate}</span>
               <span className={styles.kpiTrendSuccess}>Optimal</span>
             </div>
-            <span className={styles.kpiSub}>Avg confidence score on safe lines</span>
-            <span className={styles.kpiDetail}>Calculated from the current rolling set of verified calls.</span>
+            <span className={styles.kpiSub}>Authentic vs synthetic streams</span>
+            <span className={styles.kpiDetail}>
+              {calls.length > 0
+                ? `${authStats.safeCount} of ${calls.length} evaluated call${calls.length === 1 ? '' : 's'} verified human safe.`
+                : 'Baseline authenticity benchmark active.'}
+            </span>
           </div>
         </Card>
       </div>
@@ -251,9 +267,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
           <div className={styles.rechartsContainer}>
             <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={MOCK_ANALYTICS}>
+              <BarChart data={trendData}>
                 <XAxis dataKey="date" stroke="var(--color-text-secondary)" fontSize={12} />
-                <YAxis stroke="var(--color-text-secondary)" fontSize={12} />
+                <YAxis stroke="var(--color-text-secondary)" fontSize={12} allowDecimals={false} />
                 <Tooltip
                   cursor={{ fill: 'rgba(56, 189, 248, 0.08)', radius: 6 }}
                   content={<CustomBarTooltip />}
@@ -283,51 +299,59 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <h3 className={styles.chartTitle}>Language Distribution</h3>
             <span className={styles.chartSub}>Regional & Global Voice Telemetry</span>
           </div>
-          <div className={styles.donutLayout}>
-            <ResponsiveContainer width="60%" height={230}>
-              <PieChart>
-                <Pie
-                  {...({
-                    activeIndex: activePieIndex,
-                    activeShape: renderActiveSector,
-                    onMouseEnter: (_data: any, index: number) => setActivePieIndex(index),
-                    onMouseLeave: () => setActivePieIndex(undefined),
-                  } as any)}
-                  data={LANGUAGE_DISTRIBUTION}
-                  dataKey="count"
-                  nameKey="language"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={48}
-                  outerRadius={78}
-                  paddingAngle={4}
-                >
-                  {LANGUAGE_DISTRIBUTION.map((_entry, index) => (
-                    <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-            <div className={styles.donutLegend}>
-              {LANGUAGE_DISTRIBUTION.slice(0, 5).map((item, idx) => (
-                <div
-                  key={item.language}
-                  className={`${styles.legendRow} ${
-                    activePieIndex === idx ? styles.legendRowActive : ''
-                  }`}
-                  onMouseEnter={() => setActivePieIndex(idx)}
-                  onMouseLeave={() => setActivePieIndex(undefined)}
-                >
-                  <span
-                    className={styles.colorDot}
-                    style={{ background: PIE_COLORS[idx % PIE_COLORS.length] }}
-                  />
-                  <span className={styles.legendName}>{item.language}</span>
-                  <span className={styles.legendValue}>{item.percentage}%</span>
-                </div>
-              ))}
+          {languageData.length === 0 ? (
+            <div style={{ padding: '48px 16px', textAlign: 'center', color: 'var(--color-text-secondary)', fontSize: '0.85rem' }}>
+              <Radio size={26} color="#38bdf8" style={{ marginBottom: '8px', opacity: 0.8 }} />
+              <div style={{ fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: '4px' }}>No Language Telemetry Yet</div>
+              <div>Run audio tests in Workbench to populate language distribution dynamically.</div>
             </div>
-          </div>
+          ) : (
+            <div className={styles.donutLayout}>
+              <ResponsiveContainer width="60%" height={230}>
+                <PieChart>
+                  <Pie
+                    {...({
+                      activeIndex: activePieIndex,
+                      activeShape: renderActiveSector,
+                      onMouseEnter: (_data: any, index: number) => setActivePieIndex(index),
+                      onMouseLeave: () => setActivePieIndex(undefined),
+                    } as any)}
+                    data={languageData}
+                    dataKey="count"
+                    nameKey="language"
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={48}
+                    outerRadius={78}
+                    paddingAngle={4}
+                  >
+                    {languageData.map((_entry, index) => (
+                      <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+              <div className={styles.donutLegend}>
+                {languageData.slice(0, 5).map((item, idx) => (
+                  <div
+                    key={item.language}
+                    className={`${styles.legendRow} ${
+                      activePieIndex === idx ? styles.legendRowActive : ''
+                    }`}
+                    onMouseEnter={() => setActivePieIndex(idx)}
+                    onMouseLeave={() => setActivePieIndex(undefined)}
+                  >
+                    <span
+                      className={styles.colorDot}
+                      style={{ background: PIE_COLORS[idx % PIE_COLORS.length] }}
+                    />
+                    <span className={styles.legendName}>{item.language}</span>
+                    <span className={styles.legendValue}>{item.percentage}% ({item.count})</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </Card>
       </div>
 
